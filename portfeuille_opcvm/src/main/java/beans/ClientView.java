@@ -50,7 +50,8 @@ public class ClientView {
 	
     private List<Transaction> distinctTransactionsForClient;
 	private List<Portefeuille> filteredPortefeuilles;
-
+	private List<String> deviseList;
+	
 	@PostConstruct
 	public void init() {
 		clientList = clService.getAllClients();
@@ -80,8 +81,19 @@ public class ClientView {
 		
 		
 		distinctTransactionsForClient = clService.getDistinctTransactionsForClient(clientId);
-
-
+		filteredPortefeuilles = new ArrayList<>();
+		
+		deviseList = new ArrayList<>();
+		deviseList.add("MAD");
+		deviseList.add("EUR");
+		deviseList.add("USD");
+		deviseList.add("CAD");
+		deviseList.add("CHF");
+		deviseList.add("GPB");
+		deviseList.add("JPY");
+		deviseList.add("AUD");
+		deviseList.add("CNY");
+		deviseList.add("INR");
 	}
 
 	/************** Bean methods **************/
@@ -148,4 +160,4 @@ public class ClientView {
 		clientList = clService.getAllClients();
 	}
 
-}
+}	

@@ -137,10 +137,10 @@ h2 {
 			</p:toolbar>
 
 			<p:dataTable id="transactionTable" var="transaction"
-				widgetVar="clientTable" emptyMessage="Aucune transaction trouvée."
+				widgetVar="transactionTable" emptyMessage="Aucune transaction trouvée."
 				value="#{clientView.distinctTransactionsForClient}"
-				filteredValue="#{clientView.filteredPortefeuilles}"
-				globalFilterFunction="#{portefeuilleView.globalFilterFunction}"
+		        filteredValue="#{portefeuilleView.filteredPortefeuilles}"
+		        globalFilterFunction="#{clientView.globalFilterFunction}"
 				paginator="true" rows="10" paginatorPosition="bottom">
 
 				<f:facet name="header">
@@ -164,10 +164,22 @@ h2 {
 					filterBy="#{transaction.portefeuille.typeOpcvm}">
 					<h:outputText value="#{transaction.portefeuille.typeOpcvm}" />
 				</p:column>
-				<p:column headerText="Sens" sortBy="#{transaction.sens}"
-					style="width: fit-content" filterBy="#{transaction.sens}">
-					<h:outputText value="#{transaction.sens}" />
+				<p:column headerText="SG"
+					sortBy="#{transaction.portefeuille.societeGestion.nom}"
+					filterBy="#{transaction.portefeuille.societeGestion.nom}">
+					<h:outputText value="#{transaction.portefeuille.societeGestion.nom}" />
 				</p:column>
+				<p:column headerText="Sens" sortBy="#{transaction.sens}" filterBy="#{transaction.sens}">
+		            <f:facet name="filter">
+		                <p:selectOneMenu onchange="PF('transactionTable').filter()"
+		                    styleClass="ui-custom-filter" style="width: 100%">
+		                    <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItem itemLabel="Achat" itemValue="Achat" />
+		                    <f:selectItem itemLabel="Vente" itemValue="Vente" />
+		                </p:selectOneMenu>
+		            </f:facet>
+		            <h:outputText value="#{transaction.sens}" />
+		        </p:column>
 				<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
 					filterBy="#{transaction.nbrPart}">
 					<h:outputText value="#{transaction.nbrPart}" />
@@ -176,10 +188,16 @@ h2 {
 					filterBy="#{transaction.montant}">
 					<h:outputText value="#{transaction.montant}" />
 				</p:column>
-				<p:column headerText="Devise" style="width: fit-content"
-					sortBy="#{transaction.devise}" filterBy="#{transaction.devise}">
-					<h:outputText value="#{transaction.devise}" />
-				</p:column>
+		        <p:column headerText="Devise" sortBy="#{transaction.devise}" filterBy="#{transaction.devise}">
+		            <f:facet name="filter">
+		                <p:selectOneMenu onchange="PF('transactionTable').filter()"
+		                    styleClass="ui-custom-filter" style="width: 100%">
+		                    <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItems value="#{clientView.deviseList}" var="devise" itemLabel="#{devise}" itemValue="#{devise}" />
+		                </p:selectOneMenu>
+		            </f:facet>
+		            <h:outputText value="#{transaction.devise}" />
+		        </p:column>
 				<p:column headerText="VL" style="width: fit-content"
 					sortBy="#{transaction.valeur}"
 					filterBy="#{transaction.valeur}">
