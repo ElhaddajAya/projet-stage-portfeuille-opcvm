@@ -159,11 +159,16 @@ h2 {
 					filterBy="#{transaction.portefeuille.libelle}">
 					<h:outputText value="#{transaction.portefeuille.libelle}" />
 				</p:column>
-				<p:column headerText="Type"
-					sortBy="#{transaction.portefeuille.typeOpcvm}"
-					filterBy="#{transaction.portefeuille.typeOpcvm}">
-					<h:outputText value="#{transaction.portefeuille.typeOpcvm}" />
-				</p:column>
+				 <p:column headerText="Type" sortBy="#{transaction.portefeuille.typeOpcvm}" filterBy="#{transaction.portefeuille.typeOpcvm}">
+		            <f:facet name="filter">
+		                <p:selectOneMenu onchange="PF('transactionTable').filter()"
+		                    styleClass="ui-custom-filter" style="width: 100%">
+		                    <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true" />
+		                    <f:selectItems value="#{clientView.typeOPCVMList}" var="typeOpcvm" itemLabel="#{typeOpcvm}" itemValue="#{typeOpcvm}" />
+		                </p:selectOneMenu>
+		            </f:facet>
+		            <h:outputText value="#{transaction.portefeuille.typeOpcvm}" />
+		        </p:column>
 				<p:column headerText="SG"
 					sortBy="#{transaction.portefeuille.societeGestion.nom}"
 					filterBy="#{transaction.portefeuille.societeGestion.nom}">

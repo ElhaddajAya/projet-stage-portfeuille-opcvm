@@ -51,6 +51,8 @@ public class ClientView {
     private List<Transaction> distinctTransactionsForClient;
 	private List<Portefeuille> filteredPortefeuilles;
 	private List<String> deviseList;
+
+	private List<String> typeOPCVMList;
 	
 	@PostConstruct
 	public void init() {
@@ -94,6 +96,11 @@ public class ClientView {
 		deviseList.add("AUD");
 		deviseList.add("CNY");
 		deviseList.add("INR");
+		
+		typeOPCVMList = new ArrayList<>();
+		typeOPCVMList.add("Actions");
+		typeOPCVMList.add("Obligations");
+		typeOPCVMList.add("Diversifiés");
 	}
 
 	/************** Bean methods **************/
@@ -104,12 +111,24 @@ public class ClientView {
 			return true;
 		}
 
-		Client client = (Client) value;
-		return String.valueOf(client.getId()).toLowerCase().contains(filterText)
-				|| client.getNom().toLowerCase().contains(filterText)
-				|| client.getEmail().toLowerCase().contains(filterText)
-				|| client.getTelephone().toLowerCase().contains(filterText)
-				|| client.getAdressePostale().toLowerCase().contains(filterText);
+        if (value instanceof Client) {
+            Client client = (Client) value;
+            return String.valueOf(client.getId()).toLowerCase().contains(filterText)
+                    || client.getNom().toLowerCase().contains(filterText)
+                    || client.getEmail().toLowerCase().contains(filterText)
+                    || client.getTelephone().toLowerCase().contains(filterText)
+                    || client.getAdressePostale().toLowerCase().contains(filterText);
+        } else if (value instanceof Transaction) {
+            Transaction transaction = (Transaction) value;
+            return transaction.getPortefeuille().getLibelle().toLowerCase().contains(filterText)
+                    || transaction.getPortefeuille().getTypeOpcvm().toLowerCase().contains(filterText)
+                    || transaction.getSens().toLowerCase().contains(filterText)
+                    || transaction.getDevise().toLowerCase().contains(filterText)
+                    || transaction.getDate_transaction().equals(filterText)
+                    || transaction.getPortefeuille().getSocieteGestion().getNom().toLowerCase().contains(filterText)
+                    || String.valueOf(transaction.getMontant()).contains(filterText);
+        }
+        return false;
 	}
 
 	/* Methode pour inserrer un client */
