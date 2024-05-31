@@ -80,7 +80,7 @@ h2 {
 			</div>
 			<div class="field grid">
 				<p:outputLabel styleClass="col-fixed"
-					style="width: 40%; margin-left: 200px" value="Email:" />
+					style="width: 40%; margin-left: 200px" value="Email :" />
 				<div class="col">
 					<strong> <p:outputLabel value="#{clientView.email}" />
 					</strong>
@@ -96,7 +96,7 @@ h2 {
 			</div>
 			<div class="field grid">
 				<p:outputLabel styleClass="col-fixed"
-					style="width: 40%; margin-left: 200px" value="Adresse Postale:" />
+					style="width: 40%; margin-left: 200px" value="Adresse Postale :" />
 				<div class="col">
 					<strong> <p:outputLabel
 							value="#{clientView.adressePostale}" />
@@ -152,13 +152,18 @@ h2 {
 					</div>
 				</f:facet>
 
-				<p:column headerText="OPCVM"
+				<p:column headerText="Portefeuille"
+					sortBy="#{transaction.portefeuille.libelle}"
+					filterBy="#{transaction.portefeuille.libelle}">
+					<h:outputText value="#{transaction.portefeuille.libelle}" />
+				</p:column>
+				<p:column headerText="Type"
 					sortBy="#{transaction.portefeuille.typeOpcvm}"
 					filterBy="#{transaction.portefeuille.typeOpcvm}">
 					<h:outputText value="#{transaction.portefeuille.typeOpcvm}" />
 				</p:column>
 				<p:column headerText="Sens" sortBy="#{transaction.sens}"
-					style="width: 80px" filterBy="#{transaction.sens}">
+					style="width: fit-content" filterBy="#{transaction.sens}">
 					<h:outputText value="#{transaction.sens}" />
 				</p:column>
 				<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
@@ -169,23 +174,18 @@ h2 {
 					filterBy="#{transaction.montant}">
 					<h:outputText value="#{transaction.montant}" />
 				</p:column>
-				<p:column headerText="Devise" style="width: 80px"
+				<p:column headerText="Devise" style="width: fit-content"
 					sortBy="#{transaction.devise}" filterBy="#{transaction.devise}">
 					<h:outputText value="#{transaction.devise}" />
 				</p:column>
-				<p:column headerText="VL" style="width: 80px"
-					sortBy="#{transaction.portefeuille.valeurLiquidative}"
-					filterBy="#{transaction.portefeuille.valeurLiquidative}">
-					<h:outputText value="#{transaction.portefeuille.valeurLiquidative}" />
+				<p:column headerText="VL" style="width: fit-content"
+					sortBy="#{transaction.valeur}"
+					filterBy="#{transaction.valeur}">
+					<h:outputText value="#{transaction.valeur}" />
 				</p:column>
-				<p:column headerText="SG" style="width: 80px"
-					sortBy="#{transaction.portefeuille.societeGestion}"
-					filterBy="#{transaction.portefeuille.societeGestion}">
-					<h:outputText value="#{transaction.portefeuille.societeGestion}" />
-				</p:column>
-				<p:column headerText="Date" sortBy="#{transaction.date}"
-					filterBy="#{transaction.date}">
-					<h:outputText value="#{transaction.date}" />
+				<p:column headerText="Date" sortBy="#{transaction.date_transaction}"
+					filterBy="#{transaction.date_transaction}">
+					<h:outputText value="#{transaction.date_transaction}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
