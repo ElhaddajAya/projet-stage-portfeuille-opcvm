@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import entities.Client;
+import entities.Portefeuille;
 import entities.Transaction;
 import lombok.Data;
 import services.ClientService;
@@ -48,7 +49,7 @@ public class ClientView {
 	private List<String> formeList;
 	
     private List<Transaction> distinctTransactionsForClient;
-
+	private List<Portefeuille> filteredPortefeuilles;
 
 	@PostConstruct
 	public void init() {

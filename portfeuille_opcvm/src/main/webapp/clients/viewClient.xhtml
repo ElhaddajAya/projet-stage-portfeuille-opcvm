@@ -139,6 +139,8 @@ h2 {
 			<p:dataTable id="transactionTable" var="transaction"
 				widgetVar="clientTable" emptyMessage="Aucune transaction trouvée."
 				value="#{clientView.distinctTransactionsForClient}"
+				filteredValue="#{clientView.filteredPortefeuilles}"
+				globalFilterFunction="#{portefeuilleView.globalFilterFunction}"
 				paginator="true" rows="10" paginatorPosition="bottom">
 
 				<f:facet name="header">
