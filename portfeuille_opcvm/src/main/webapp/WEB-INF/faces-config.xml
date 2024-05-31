@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+	version="2.3">
+	<converter>
+	<converter-id>societeGestionConverter</converter-id>
+	<converter-class>utils.SocieteGestionConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>formeJuridiqueConverter</converter-id>
+		<converter-class>utils.FormeJuridiqueConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>clientConverter</converter-id>
+		<converter-class>utils.ClientConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>portefeiulleConverter</converter-id>
+		<converter-class>utils.PortefeuilleConverter</converter-class>
+	</converter>
+</faces-config>

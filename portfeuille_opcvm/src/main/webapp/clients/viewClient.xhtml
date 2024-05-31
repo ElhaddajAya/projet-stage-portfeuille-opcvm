@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Portfeuille OPCVM - Détails Client</title>
+	<link rel="stylesheet"
+		href="https://unpkg.com/primeflex@latest/primeflex.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/css/primeicons.css" />
+	<style>
+body {
+	color: #495057;
+}
+
+h2 {
+	color: #ffae00;
+}
+
+.ui-tabs-header a {
+	color: #495057 !important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-active {
+	border-bottom: 2px solid #495057 !important;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.column {
+	width: fit-content !important;
+}
+
+.link {
+	text-decoration: none !important;
+	color: #495057;
+	cursor: pointer;
+}
+
+.link:hover {
+	color: #ffae00;
+	text-decoration: underline;
+}
+</style>
+</h:head>
+
+<h:body style="background-color: #f2f2f2;">
+	<p:card
+		style="margin: auto; width: 90%; margin-top: 3rem; margin-bottom: 3rem; padding: 16px">
+		<h:form>
+			<p:growl id="growl" showDetail="true" />
+			<div
+				style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="mt-0">Client #{clientView.nom}</h2>
+				<p:button outcome="/index.xhtml" value="Retour"
+					icon="pi pi-arrow-left"
+					style="margin-right:20px; background-color: #ffae00; border: #ffae00">
+				</p:button>
+			</div>
+			<br />
+			<div class="field grid">
+				<p:outputLabel styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Nom :" />
+				<div class="col">
+					<strong> <p:outputLabel value="#{clientView.nom}" />
+					</strong>
+				</div>
+			</div>
+			<div class="field grid">
+				<p:outputLabel styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Email:" />
+				<div class="col">
+					<strong> <p:outputLabel value="#{clientView.email}" />
+					</strong>
+				</div>
+			</div>
+			<div class="field grid">
+				<p:outputLabel styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Numéro Téléphone :" />
+				<div class="col">
+					<strong> <p:outputLabel value="#{clientView.telephone}" />
+					</strong>
+				</div>
+			</div>
+			<div class="field grid">
+				<p:outputLabel styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Adresse Postale:" />
+				<div class="col">
+					<strong> <p:outputLabel
+							value="#{clientView.adressePostale}" />
+					</strong>
+				</div>
+			</div>
+			<div class="field grid">
+				<p:outputLabel styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Forme Juridique :" />
+				<div class="col">
+					<strong> <p:outputLabel
+							value="#{clientView.formeJuridique}" />
+					</strong>
+				</div>
+			</div>
+			<div class="field grid">
+				<p:outputLabel styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px"
+					value="Activité Principale :" />
+				<div class="col">
+					<strong> <p:outputLabel
+							value="#{clientView.activitePrincipale}" />
+					</strong>
+				</div>
+			</div>
+		</h:form>
+		<br />
+
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Export" icon="pi pi-upload"
+						styleClass="ui-button-primary" ajax="false">
+						<p:dataExporter type="xlsx" target="transactionTable"
+							fileName="clients_portefeuille_#{clientView.nom}" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="transactionTable" var="transaction"
+				widgetVar="clientTable" emptyMessage="Aucune transaction trouvée."
+				value="#{clientView.distinctTransactionsForClient}"
+				paginator="true" rows="10" paginatorPosition="bottom">
+
+				<f:facet name="header">
+					<div class="header">
+						<span>Liste des Transactions Effectuées</span>
+						<div class="flex justify-content-end">
+							<p:inputText id="globalFilter"
+								onkeyup="PF('transactionTable').filter()" style="width:300px"
+								placeholder="Recherche globale" />
+						</div>
+					</div>
+				</f:facet>
+
+				<p:column headerText="OPCVM"
+					sortBy="#{transaction.portefeuille.typeOpcvm}"
+					filterBy="#{transaction.portefeuille.typeOpcvm}">
+					<h:outputText value="#{transaction.portefeuille.typeOpcvm}" />
+				</p:column>
+				<p:column headerText="Sens" sortBy="#{transaction.sens}"
+					style="width: 80px" filterBy="#{transaction.sens}">
+					<h:outputText value="#{transaction.sens}" />
+				</p:column>
+				<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
+					filterBy="#{transaction.nbrPart}">
+					<h:outputText value="#{transaction.nbrPart}" />
+				</p:column>
+				<p:column headerText="Montant" sortBy="#{transaction.montant}"
+					filterBy="#{transaction.montant}">
+					<h:outputText value="#{transaction.montant}" />
+				</p:column>
+				<p:column headerText="Devise" style="width: 80px"
+					sortBy="#{transaction.devise}" filterBy="#{transaction.devise}">
+					<h:outputText value="#{transaction.devise}" />
+				</p:column>
+				<p:column headerText="VL" style="width: 80px"
+					sortBy="#{transaction.portefeuille.valeurLiquidative}"
+					filterBy="#{transaction.portefeuille.valeurLiquidative}">
+					<h:outputText value="#{transaction.portefeuille.valeurLiquidative}" />
+				</p:column>
+				<p:column headerText="SG" style="width: 80px"
+					sortBy="#{transaction.portefeuille.societeGestion}"
+					filterBy="#{transaction.portefeuille.societeGestion}">
+					<h:outputText value="#{transaction.portefeuille.societeGestion}" />
+				</p:column>
+				<p:column headerText="Date" sortBy="#{transaction.date}"
+					filterBy="#{transaction.date}">
+					<h:outputText value="#{transaction.date}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:card>
+</h:body>
+</html>

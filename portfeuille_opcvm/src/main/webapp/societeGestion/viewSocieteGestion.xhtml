@@ -1,0 +1,224 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Portfeuille OPCVM - Détails Société de Gestion</title>
+	<link rel="stylesheet"
+		href="https://unpkg.com/primeflex@latest/primeflex.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/css/primeicons.css" />
+
+	<style>
+body {
+	color: #495057;
+}
+
+h2 {
+	color: #ffae00;
+}
+
+.ui-tabs-header a {
+	color: #495057 !important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-active {
+	border-bottom: 2px solid #495057 !important;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.column {
+	width: fit-content !important;
+}
+
+.link {
+	text-decoration: none !important;
+	color: #495057;
+	cursor: pointer;
+}
+
+.link:hover {
+	color: #ffae00;
+	text-decoration: underline;
+}
+</style>
+</h:head>
+
+<h:body style="background-color: #f2f2f2;">
+	<p:card
+		style="margin: auto; width: 90%; margin-top: 3rem; margin-bottom: 3rem; padding: 16px">
+		<h:form>
+			<p:growl id="growl" showDetail="true" />
+
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+		        <h2 class="mt-0">Société de Gestion #{societeGestionView.nom}</h2>
+		
+		        <p:button outcome="/index.xhtml" value="Retour" icon="pi pi-arrow-left"
+		                  style="margin-right:20px; background-color: #ffae00; border: #ffae00">
+		        </p:button>
+		    </div>
+		    <br/>
+
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Nom :" />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{societeGestionView.nom}" />						
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Email :" />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{societeGestionView.email}" />						
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Téléphone :" />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{societeGestionView.telephone}" />						
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Adresse Postale :" />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{societeGestionView.adressePostale}" />						
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Site Web :" />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{societeGestionView.siteWeb}" />						
+					</STRONG>
+				</div>
+			</div>
+		</h:form>
+		
+		<br/>
+		<h:form>
+			<p:toolbar>
+	            <p:toolbarGroup align="right">
+		            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
+	                    <p:dataExporter type="xlsx" target="portefeuilleTable" fileName="#{societeGestionView.nom}_managed_portefeuilles" />
+	                </p:commandButton>
+		        </p:toolbarGroup>
+	        </p:toolbar>
+	        
+		    <p:dataTable var="portefeuille" style="color: #000" id="portefeuilleTable"
+		         value="#{societeGestionView.portefeuilles}"
+		         widgetVar="portefeuilleTable"
+		         emptyMessage="Aucun portefeuille trouvé."
+		         filteredValue="#{portefeuilleView.filteredPortefeuilles}"
+		         globalFilterFunction="#{societeGestionView.globalFilterFunction}"
+		         paginator="true" rows="10" paginatorPosition="bottom">
+		             
+		         <f:facet name="header">
+		            <div class="header">
+		                <span>Liste des Portefeuilles Gérés par <strong>#{societeGestionView.nom}</strong></span>
+		                <div class="flex justify-content-end">
+		                    <!-- Barre de recherche -->
+		                    <p:inputText id="globalFilter"
+		                                 onkeyup="PF('portefeuilleTable').filter()" style="width:300px"
+		                                 placeholder="Recherche globale" />
+		                </div>
+		            </div>
+		        </f:facet>
+		        		        
+		       	<p:column headerText="ID" sortBy="#{portefeuille.id}"
+					filterBy="#{portefeuille.id}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: 80px">
+					<h:outputText value="#{portefeuille.id}" />
+				</p:column>
+				<p:column headerText="Libellé" sortBy="#{portefeuille.libelle}"
+					filterBy="#{portefeuille.libelle}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: fit-content">
+					<h:outputText value="#{portefeuille.libelle}" />
+				</p:column>
+				<p:column field="typeOpcvm" headerText="Type d'OPCVM"
+					filterMatchMode="exact" sortBy="#{portefeuille.typeOpcvm}">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('portefeuilleTable').filter()"
+							styleClass="ui-custom-filter" style="width: 100%">
+							<f:selectItem itemLabel="Tous" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{societeGestionView.typeOPCVMList}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{portefeuille.typeOpcvm}" />
+				</p:column>
+				<p:column headerText="Nbr de Parts"
+					sortBy="#{portefeuille.nbrPart}"
+					filterBy="#{portefeuille.nbrPart}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: fit-content">
+					<h:outputText value="#{portefeuille.nbrPart}" />
+				</p:column>
+				<p:column field="typeInvest" headerText="Type d'Invest."
+					filterMatchMode="exact" sortBy="#{portefeuille.typeInvest}">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('portefeuilleTable').filter()"
+							styleClass="ui-custom-filter" style="width: 100%">
+							<f:selectItem itemLabel="Tous" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{societeGestionView.typeInvestList}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{portefeuille.typeInvest}" />
+				</p:column>
+				<p:column field="objectif" headerText="Objectif"
+					filterMatchMode="exact" sortBy="#{portefeuille.objectif}">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('portefeuilleTable').filter()"
+							styleClass="ui-custom-filter" style="width: 100%">
+							<f:selectItem itemLabel="Tous" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{societeGestionView.objectifList}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{portefeuille.objectif}" />
+				</p:column>
+				<p:column field="profileRisque" headerText="P. de Risque"
+					filterMatchMode="exact" sortBy="#{portefeuille.profileRisque}">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('portefeuilleTable').filter()"
+							styleClass="ui-custom-filter" style="width: 100%">
+							<f:selectItem itemLabel="Tous" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{societeGestionView.profileRisqueList}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{portefeuille.profileRisque}" />
+				</p:column>
+		    </p:dataTable>
+		</h:form>
+	</p:card>
+</h:body>
+	
+</html>

@@ -1,0 +1,246 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Portfeuille OPCVM - Effectuer Transaction</title>
+	<link rel="stylesheet"
+		href="https://unpkg.com/primeflex@latest/primeflex.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/css/primeicons.css" />
+
+	<style>
+body {
+	color: #495057;
+}
+
+h2 {
+	color: #ffae00;
+}
+
+.ui-tabs-header a {
+	color: #495057 !important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-active {
+	border-bottom: 2px solid #495057 !important;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.column {
+	width: fit-content !important;
+}
+
+.link {
+	text-decoration: none !important;
+	color: #495057;
+	cursor: pointer;
+}
+
+.link:hover {
+	color: #ffae00;
+	text-decoration: underline;
+}
+</style>
+</h:head>
+
+<h:body style="background-color: #f2f2f2;">
+	<p:card
+		style="margin: auto; width: 90%; margin-top: 3rem; margin-bottom: 3rem; padding: 16px">
+		<h:form>
+			<p:growl id="growl" showDetail="true" />
+
+			<div
+				style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="mt-0">Transaction #{transactionView.libelle}</h2>
+
+				<p:button outcome="/index.xhtml" value="Retour"
+					icon="pi pi-arrow-left" style="margin-right:20px; background-color: #ffae00; border: #ffae00">
+				</p:button>
+			</div>
+
+			<div class="ui-fluid formgrid grid mt-4">
+				<div class="field col-12 md:col-6">
+					<p:outputLabel for="@next" value="Libellé" />
+					<p:inputText id="libelle" value="#{transactionView.libelle}"
+						required="true" readonly="true" disabled="true" />
+				</div>
+				<div class="field col-12 md:col-6">
+					<p:outputLabel for="client" value="Client" />
+					<p:selectOneMenu id="client" required="true"
+						value="#{transactionView.selectedClient}"
+						converter="clientConverter">
+						<f:selectItem itemLabel="" itemValue="" disabled="true" />
+						<f:selectItems value="#{transactionView.clientList}" var="client"
+							itemLabel="#{client.nom}" itemValue="#{client}" />
+						<f:facet name="footer">
+							<p:divider styleClass="mt-0" />
+							<h:outputText
+								value="#{transactionView.clientList.size()} options"
+								style="font-weight:bold;" />
+						</f:facet>
+					</p:selectOneMenu>
+				</div>
+			</div>
+
+			<div class="ui-fluid formgrid grid">
+				<div class="field col-12 md:col-4">
+					<p:outputLabel for="sens" value="Sens" />
+					<p:selectOneMenu id="sens" required="true"
+						value="#{transactionView.selectedSens}">
+						<f:selectItem itemLabel="" itemValue="" disabled="true" />
+						<f:selectItem itemLabel="Achat" itemValue="Achat" />
+						<f:selectItem itemLabel="Vente" itemValue="Vente" />
+						<f:facet name="footer">
+							<p:divider styleClass="mt-0" />
+							<h:outputText value="2 options" style="font-weight:bold;" />
+						</f:facet>
+					</p:selectOneMenu>
+				</div>
+				<div class="field col-12 md:col-4">
+					<p:outputLabel for="nbrPart" value="Nombre de Part " />
+					<p:inputNumber id="nbrPart" value="#{transactionView.nbrPart}"
+						minValue="1" decimalPlaces="0" />
+				</div>
+				<div class="field col-12 md:col-4">
+					<p:outputLabel for="valeur" value="Valeur Liquidative" />
+					<p:inputNumber id="valeur" value="#{transactionView.valeur}"
+						required="true" minValue="1" decimalPlaces="0" />
+				</div>
+			</div>
+			<div class="ui-fluid formgrid grid">
+				<div class="field col-12 md:col-6">
+					<p:outputLabel for="montant" value="Montant" />
+					<p:inputNumber id="montant" value="#{transactionView.montant}"
+						required="true" modifyValueOnWheel="false" />
+				</div>
+				<div class="field col-12 md:col-6">
+					<p:outputLabel for="devise" value="Devise" />
+					<p:selectOneMenu id="devise" required="true"
+						value="#{transactionView.selectedDevise}">
+						<f:selectItem itemLabel="" itemValue="" disabled="true" />
+						<f:selectItems value="#{transactionView.deviseList}" />
+						<f:facet name="footer">
+							<p:divider styleClass="mt-0" />
+							<h:outputText
+								value="#{transactionView.deviseList.size()} options"
+								style="font-weight:bold;" />
+						</f:facet>
+					</p:selectOneMenu>
+				</div>
+			</div>
+
+			<br />
+			<div class="ui-fluid formgrid grid">
+				<div class="field col-12 md:col-12">
+					<p:commandButton type="submit" value="Effectuer Transaction"
+						action="#{transactionView.save()}"
+						style="background-color: #ffae00; border-color: #ffae00;"
+						update="growl" />
+				</div>
+			</div>
+		</h:form>
+
+		<p:divider />
+		<br/>
+		<!-- *****************Liste des transactions effectués dans le portefeuille courant****************++ -->
+		<h:form>
+			<p:toolbar>
+	            <p:toolbarGroup align="right">
+		            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
+	                    <p:dataExporter type="xlsx" target="transactionTable" fileName="transactions_portefeuille_#{transactionView.libelle}" />
+	                </p:commandButton>
+		        </p:toolbarGroup>
+	        </p:toolbar>
+	        
+			<p:dataTable var="transaction" style="color: #000" id="transactionTable"
+				value="#{transactionView.transactionList}"
+				widgetVar="transactionTable"
+				emptyMessage="Aucune transaction trouvé."
+				filteredValue="#{transactionView.filteredTransactions}"
+				globalFilterFunction="#{transactionView.globalFilterFunction}"
+				paginator="true" rows="10" paginatorPosition="bottom">
+
+				<!-- Entête de la table -->
+				<f:facet name="header">
+					<div class="header">
+						<span>Liste des Transactions du Portefeuille <strong>#{transactionView.libelle}</strong></span>
+						<div class="flex justify-content-end">
+							<!-- Barre de recherche -->
+							<p:inputText id="globalFilter"
+								onkeyup="PF('transactionTable').filter()" style="width:300px"
+								placeholder="Recherche globale" />
+						</div>
+					</div>
+				</f:facet>
+
+				<!-- Colonnes de données -->
+				<p:column headerText="Client" sortBy="#{transaction.client.nom}"
+					filterBy="#{transaction.client.nom}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: fit-content">
+					<h:outputText value="#{transaction.client.nom}" />
+				</p:column>
+				<p:column headerText="Date" sortBy="#{transaction.date_transaction}"
+					filterBy="#{transaction.date_transaction}"
+					filterMatchMode="contains" filterPlaceholder=""
+					style="width: fit-content">
+					<h:outputText value="#{transaction.date_transaction}" />
+				</p:column>
+				<p:column field="sens" headerText="Sens" filterMatchMode="exact"
+					sortBy="sens">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('transactionTable').filter()"
+							styleClass="ui-custom-filter" style="width: 100%">
+							<f:selectItem itemLabel="Tous" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="Achat" itemValue="Achat" />
+							<f:selectItem itemLabel="Vente" itemValue="Vente" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{transaction.sens}" />
+				</p:column>
+				<p:column headerText="Montant" sortBy="#{transaction.montant}"
+					filterBy="#{transaction.montant}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: fit-content">
+					<h:outputText value="#{transaction.montant}" />
+				</p:column>
+				<p:column field="devise" headerText="Devise" filterMatchMode="exact"
+					sortBy="#{transaction.devise}">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('transactionTable').filter()"
+							styleClass="ui-custom-filter" style="width: 100%">
+							<f:selectItem itemLabel="Tous" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{transactionView.deviseList}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{transaction.devise}" />
+				</p:column>
+				<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
+					filterBy="#{transaction.nbrPart}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: fit-content">
+					<h:outputText value="#{transaction.nbrPart}" />
+				</p:column>
+				<p:column headerText="VL" sortBy="#{transaction.valeur}"
+					filterBy="#{transaction.valeur}" filterMatchMode="contains"
+					filterPlaceholder="" style="width: fit-content">
+					<h:outputText value="#{transaction.valeur}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:card>
+</h:body>
+
+</html>

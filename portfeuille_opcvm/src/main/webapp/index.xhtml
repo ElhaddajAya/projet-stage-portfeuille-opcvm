@@ -1,0 +1,739 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Portfeuille OPCVM</title>
+	<link rel="stylesheet"
+		href="https://unpkg.com/primeflex@latest/primeflex.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/css/primeicons.css" />
+
+	<style>
+body {
+	color: #495057;
+}
+
+h2 {
+	color: #ffae00;
+}
+
+.ui-tabs-header a {
+	color: #495057 !important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-active a {
+	color: #ffae00 !important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-active {
+	border-bottom: 2px solid #ffae00 !important;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.column {
+	width: fit-content !important;
+}
+
+.link {
+	text-decoration: none !important;
+	color: #ffae00;
+	cursor: pointer;
+}
+
+.link:hover {
+	color: #ffae00;
+	text-decoration: underline;
+}
+</style>
+</h:head>
+
+<h:body style="background-color: #f2f2f2;">
+	<p:card
+		style="margin: auto; width: 90%; margin-top: 3rem; margin-bottom: 3rem;">
+		<p:tabView>
+			<!-- *****************Portefeuille**************** -->
+			<p:tab title="Portefeuilles" id="portefeuille">
+				<h:form>
+					<p:growl id="growl" showDetail="true" />
+
+					<div class="ui-fluid formgrid grid mt-4">
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="@next" value="Libellé" />
+							<p:inputText id="libelle" value="#{portefeuilleView.libelle}"
+								required="true" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="typesOpcvm" value="Type d'OPCVM" />
+							<p:selectOneMenu id="typesOpcvm" required="true"
+								value="#{portefeuilleView.selectedTypeOPCVM}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.typeOPCVMList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.typeOPCVMList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="societeGestion" value="Société de Gestion" />
+							<p:selectOneMenu id="societeGestion" required="true"
+								value="#{portefeuilleView.selectedSocieteGest}"
+								converter="societeGestionConverter">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.societeGestionList}"
+									var="societe" itemLabel="#{societe.nom}" itemValue="#{societe}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.societeGestionList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+					</div>
+
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="typesInvestissement"
+								value="Type d'Investissement" />
+							<p:selectOneMenu id="typesInvestissement" required="true"
+								value="#{portefeuilleView.selectedTypeInvest}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.typeInvestList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.typeInvestList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="objectif" value="Objectif" />
+							<p:selectOneMenu id="objectif" required="true"
+								value="#{portefeuilleView.selectedObjectif}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.objectifList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.objectifList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+					</div>
+
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="horizonPlacement"
+								value="Horizon de Placement" />
+							<p:selectOneMenu id="horizonPlacement" required="true"
+								value="#{portefeuilleView.selectedHorizon}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.horizonList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.horizonList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="profil" value="Profil de Risque" />
+							<p:selectOneMenu id="profil" required="true"
+								value="#{portefeuilleView.selectedProfileRisque}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.profileRisqueList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.profileRisqueList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+					</div>
+
+					<br />
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-12">
+							<p:commandButton type="submit" value="Enregistrer"
+								action="#{portefeuilleView.save()}"
+								style="background-color: #ffae00; border-color: #ffae00;"
+								update="growl" />
+						</div>
+					</div>
+				</h:form>
+
+				<p:divider />
+				<br />
+
+				<!-- ****************Portefeuille list**************** -->
+				<h:form>
+					<p:dataTable var="portefeuille" style="color: #000"
+						value="#{portefeuilleView.portefeuilleList}"
+						widgetVar="portefeuilleTable"
+						emptyMessage="Aucun portefeuille trouvé."
+						filteredValue="#{portefeuilleView.filteredPortefeuilles}"
+						globalFilterFunction="#{portefeuilleView.globalFilterFunction}"
+						paginator="true" rows="10" paginatorPosition="bottom">
+
+						<!-- Entête de la table -->
+						<f:facet name="header">
+							<div class="header">
+								<span>Liste des Portefeuilles</span>
+								<div class="flex justify-content-end">
+									<!-- Barre de recherche -->
+									<p:inputText id="globalFilter"
+										onkeyup="PF('portefeuilleTable').filter()" style="width:300px"
+										placeholder="Recherche globale" />
+								</div>
+							</div>
+						</f:facet>
+
+						<!-- Colonnes de données -->
+						<p:column headerText="ID" sortBy="#{portefeuille.id}"
+							filterBy="#{portefeuille.id}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: 80px">
+							<h:outputText value="#{portefeuille.id}" />
+						</p:column>
+						<p:column headerText="Libellé" sortBy="#{portefeuille.libelle}"
+							filterBy="#{portefeuille.libelle}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:link value="#{portefeuille.libelle}"
+								outcome="/portefeuilles/performance.xhtml">
+								<f:param name="portefeuilleId" value="#{portefeuille.id}" />
+								<i class="pi pi-external-link"
+									style="margin-left: 5px; font-size: 14px"></i>
+							</h:link>
+						</p:column>
+						<p:column field="typeOpcvm" headerText="Type d'OPCVM"
+							filterMatchMode="exact" sortBy="#{portefeuille.typeOpcvm}">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('portefeuilleTable').filter()"
+									styleClass="ui-custom-filter" style="width: 100%">
+									<f:selectItem itemLabel="Tous" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{portefeuilleView.typeOPCVMList}" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{portefeuille.typeOpcvm}" />
+						</p:column>
+						<p:column headerText="Nombre de Part"
+							sortBy="#{portefeuille.nbrPart}"
+							filterBy="#{portefeuille.nbrPart}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{portefeuille.nbrPart}" />
+						</p:column>
+						<p:column headerText="Société de Gest."
+							sortBy="#{portefeuille.societeGestion.nom}"
+							filterBy="#{portefeuille.societeGestion.nom}"
+							filterMatchMode="contains" filterPlaceholder=""
+							style="width: fit-content">
+							<h:outputText value="#{portefeuille.societeGestion.nom}" />
+						</p:column>
+
+						<!-- Colonne d'actions -->
+						<p:column headerText="" style="width: 190px">
+							<div class="actions">
+								<!-- Bouton pour afficher les détails -->
+								<p:button icon="pi pi-eye"
+									styleClass="rounded-button ui-button-success"
+									outcome="/portefeuilles/viewPortefeuille.xhtml?ptfId=#{portefeuille.id}"
+									id="button-view" />
+								<!-- Bouton pour supprimer -->
+								<p:commandButton icon="pi pi-trash"
+									styleClass="rounded-button ui-button-danger"
+									action="#{portefeuilleView.deletePortefeuille(portefeuille)}"
+									id="button-delete" 
+									update="@form"/>
+								<!-- Bouton pour modifier -->
+								<p:button icon="pi pi-pencil"
+									styleClass="rounded-button ui-button-primary"
+									outcome="/portefeuilles/updateForm.xhtml?ptfId=#{portefeuille.id}"
+									id="button-edit" />
+								<!-- Bouton pour effecture des transactions -->
+								<p:button icon="pi pi-arrow-right-arrow-left"
+									styleClass="rounded-button ui-button-warning"
+									outcome="/portefeuilles/transactionsForm.xhtml"
+									id="button-transaction">
+									<f:param name="portefeuilleId" value="#{portefeuille.id}" />
+								</p:button>
+								<p:tooltip for="button-transaction"
+									value="Effectuer Transactions" position="top" />
+							</div>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+			<!-- *******Client******* -->
+			<p:tab title="Clients" id="tab2">
+				<h:form>
+					<p:growl id="growl" showDetail="true" />
+					<div class="ui-fluid formgrid grid mt-4">
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="nom" value="Nom" />
+							<p:inputText id="nom" value="#{clientView.nom}" required="true" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="email" value="Email" />
+							<p:inputText id="email" value="#{clientView.email}"
+								required="true" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="phone" value="Téléphone" />
+							<p:inputMask id="phone" value="#{clientView.telephone}"
+								required="true" mask="(212) 9-99999999" validateMask="true" />
+						</div>
+					</div>
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="formeJurid"
+								value="Forme Juridique (Optionnelle)" />
+							<p:selectOneMenu id="formeJurid"
+								value="#{clientView.formeJuridique}"
+								converter="formeJuridiqueConverter">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{clientView.formeList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText value="#{clientView.formeList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="activitePrincipale"
+								value="Activité Principale (Optionnelle)" />
+							<p:inputText id="activitePrincipale"
+								value="#{clientView.activitePrincipale}" required="false" />
+						</div>
+					</div>
+
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-10">
+							<p:outputLabel for="adress" value="Adresse Postale" />
+							<p:inputText id="adress" value="#{clientView.adressePostale}"
+								required="true" />
+						</div>
+						<div class="field col-12 md:col-2">
+							<p:outputLabel for="entreprise" value="Entreprise" />
+							<br />
+							<p:selectBooleanButton id="entreprise" onLabel="Oui"
+								offLabel="Non" style="width:100%"
+								value="#{clientView.estPhysique}" />
+
+						</div>
+					</div>
+					<br />
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-12">
+							<p:commandButton type="enregistrer" value="Enregistrer"
+								action="#{clientView.save()}"
+								style="background-color: #ffae00; border-color: #ffae00;"
+								update="growl" />
+						</div>
+					</div>
+				</h:form>
+
+				<p:divider />
+				<br />
+
+				<h:form>
+					<p:dataTable var="client" style="color: #000"
+						value="#{clientView.clientList}" widgetVar="clientTable"
+						emptyMessage="Aucun client trouvé."
+						filteredValue="#{clientView.filteredClients}"
+						globalFilterFunction="#{clientView.globalFilterFunction}"
+						paginator="true" rows="10" paginatorPosition="bottom">
+
+						<!-- Entête de la table -->
+						<f:facet name="header">
+							<div class="header">
+								<span>Liste des Clients</span>
+								<div class="flex justify-content-end">
+									<!-- Barre de recherche -->
+									<p:inputText id="globalFilter"
+										onkeyup="PF('clientTable').filter()" style="width:300px"
+										placeholder="Recherche globale" />
+								</div>
+							</div>
+						</f:facet>
+
+						<!-- Colonnes de données -->
+						<p:column headerText="ID" sortBy="#{client.id}"
+							filterBy="#{client.id}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: 80px">
+							<h:outputText value="#{client.id}" />
+						</p:column>
+						<p:column headerText="Nom" sortBy="#{client.nom}"
+							filterBy="#{client.nom}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{client.nom}" />
+						</p:column>
+						<p:column headerText="Email" sortBy="#{client.email}"
+							filterBy="#{client.email}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{client.email}" />
+						</p:column>
+						<p:column headerText="Téléphone" sortBy="#{client.telephone}"
+							filterBy="#{client.telephone}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{client.telephone}" />
+						</p:column>
+
+						<!-- Colonne d'actions -->
+						<p:column headerText="" style="width: 157.344px">
+							<div class="actions">
+								<!-- Bouton pour afficher les détails -->
+								<p:button icon="pi pi-eye"
+									styleClass="rounded-button ui-button-success"
+									outcome="/clients/viewClient.xhtml?clientId=#{client.id}" />
+								<!-- Bouton pour supprimer -->
+								<p:commandButton id="deleteButton#{client.id}"
+									icon="pi pi-trash" styleClass="rounded-button ui-button-danger"
+									action="#{clientView.delete(client)}" update="@form" />
+								<!-- Bouton pour modifier -->
+								<p:button icon="pi pi-pencil"
+									styleClass="rounded-button ui-button-primary"
+									outcome="/clients/updateForm.xhtml?clientId=#{client.id}" />
+							</div>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+
+			</p:tab>
+
+			<!-- ****************Societe de gestion*************** -->
+			<p:tab title="Sociétés de Gestion" id="tab3">
+				<h:form>
+					<p:growl id="growl" showDetail="true" />
+
+					<div class="ui-fluid formgrid grid mt-4">
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="nom" value="Nom" />
+							<p:inputText id="nom" value="#{societeGestionView.nom}"
+								required="true" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="email" value="Email" />
+							<p:inputText id="email" type="email"
+								value="#{societeGestionView.email}" required="true" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="telephone" value="Téléphone" />
+							<p:inputMask id="telephone"
+								value="#{societeGestionView.telephone}" mask="(212) 9-99999999"
+								validateMask="true" required="true" />
+						</div>
+					</div>
+
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-9">
+							<p:outputLabel for="adresse" value="Adresse Postale" />
+							<p:inputText id="adresse"
+								value="#{societeGestionView.adressePostale}" required="true" />
+						</div>
+						<div class="field col-12 md:col-3">
+							<p:outputLabel for="site" value="Site web (Optionnel)" />
+							<p:inputText id="site" value="#{societeGestionView.siteWeb}" />
+						</div>
+					</div>
+
+					<br />
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-12">
+							<p:commandButton type="submit" value="Enregistrer"
+								style="background-color: #ffae00; border-color: #ffae00;"
+								update="growl" action="#{societeGestionView.save()}" />
+						</div>
+					</div>
+				</h:form>
+
+				<p:divider />
+				<br />
+
+				<!-- *************Societe de Gestion list************* -->
+				<h:form>
+					<p:dataTable var="societe" style="color: #000"
+						value="#{societeGestionView.societeGestionList}"
+						widgetVar="societeGestionTable"
+						emptyMessage="Aucun société de gestion trouvée."
+						filteredValue="#{societeGestionView.filteredSocietesGestion}"
+						globalFilterFunction="#{societeGestionView.globalFilterFunction}"
+						paginator="true" rows="10" paginatorPosition="bottom">
+
+						<!-- Entête de la table -->
+						<f:facet name="header">
+							<div class="header">
+								<span>Liste des Sociétés de Gestion</span>
+								<div class="flex justify-content-end">
+									<!-- Barre de recherche -->
+									<p:inputText id="globalFilter"
+										onkeyup="PF('societeGestionTable').filter()"
+										style="width:300px" placeholder="Recherche globale" />
+								</div>
+							</div>
+						</f:facet>
+
+						<!-- Colonnes de données -->
+						<p:column headerText="ID" sortBy="#{societe.id}"
+							filterBy="#{societe.id}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: 80px">
+							<h:outputText value="#{societe.id}" />
+						</p:column>
+						<p:column headerText="Nom" sortBy="#{societe.nom}"
+							filterBy="#{societe.nom}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{societe.nom}" />
+						</p:column>
+						<p:column headerText="Email" sortBy="#{societe.email}"
+							filterBy="#{societe.email}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{societe.email}" />
+						</p:column>
+						<p:column headerText="Téléphone" sortBy="#{societe.telephone}"
+							filterBy="#{societe.telephone}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{societe.telephone}" />
+						</p:column>
+
+						<!-- Colonne d'actions -->
+						<p:column headerText="" style="width: 157.344px">
+							<div class="actions">
+								<!-- Bouton pour afficher les détails -->
+								<p:button icon="pi pi-eye"
+									styleClass="rounded-button ui-button-success"
+					            outcome="/societeGestion/viewSocieteGestion.xhtml?sgId=#{societe.id}" />
+								<!-- Bouton pour supprimer -->
+								<p:commandButton id="deleteButton#{client.id}"
+									icon="pi pi-trash" styleClass="rounded-button ui-button-danger"
+									action="#{societeGestionView.delete(societe)}"
+									update="@form" />
+								<!-- Bouton pour modifier -->
+								<p:button icon="pi pi-pencil"
+									styleClass="rounded-button ui-button-primary"
+									outcome="/societeGestion/updateForm.xhtml?sgId=#{societe.id}" />
+							</div>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+
+			<!-- *************** Transactions (Tout) ************** -->
+			<p:tab title="Transactions" id="tab4">
+				<h:form>
+					<p:growl id="growl" showDetail="true" />
+
+					<div class="ui-fluid formgrid grid mt-4">
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="portefeuille" value="Portefeuille" />
+							<p:selectOneMenu id="portefeuille" required="true"
+								value="#{allTransactionView.selectedPortefeuille}"
+								converter="portefeuilleConverter">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{allTransactionView.portefeuilleList}"
+									var="portefeuille" itemLabel="#{portefeuille.libelle}"
+									itemValue="#{portefeuille}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{allTransactionView.portefeuilleList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="client" value="Client" />
+							<p:selectOneMenu id="client" required="true"
+								value="#{allTransactionView.selectedClient}"
+								converter="clientConverter">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{allTransactionView.clientList}"
+									var="client" itemLabel="#{client.nom}" itemValue="#{client}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{allTransactionView.clientList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="nbrPart" value="Nombre de Part " />
+							<p:inputNumber id="nbrPart" value="#{allTransactionView.nbrPart}"
+								minValue="1" decimalPlaces="0" required="true" />
+						</div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="sens" value="Sens" />
+							<p:selectOneMenu id="sens" required="true"
+								value="#{allTransactionView.selectedSens}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItem itemLabel="Achat" itemValue="Achat" />
+								<f:selectItem itemLabel="Vente" itemValue="Vente" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText value="2 options" style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+					</div>
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="valeur" value="Valeur Liquidative" />
+							<p:inputNumber id="valeur" value="#{allTransactionView.valeur}"
+								required="true" minValue="1" decimalPlaces="0" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="montant" value="Montant" />
+							<p:inputNumber id="montant" value="#{allTransactionView.montant}"
+								required="true" modifyValueOnWheel="false" />
+						</div>
+						<div class="field col-12 md:col-4">
+							<p:outputLabel for="devise" value="Devise" />
+							<p:selectOneMenu id="devise" required="true"
+								value="#{allTransactionView.selectedDevise}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{allTransactionView.deviseList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{allTransactionView.deviseList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+					</div>
+
+					<br />
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-12">
+							<p:commandButton type="submit" value="Enregistrer"
+								style="background-color: #ffae00; border-color: #ffae00;"
+								update="growl" action="#{allTransactionView.save()}" />
+						</div>
+					</div>
+				</h:form>
+
+				<p:divider />
+				<br/>
+				<!-- ************** Liste de toutes les transactions *************** -->
+				<h:form>
+					<p:toolbar>
+			            <p:toolbarGroup align="right">
+				            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
+			                    <p:dataExporter type="xlsx" target="transactionTable" fileName="all_transactions" />
+			                </p:commandButton>
+				        </p:toolbarGroup>
+			        </p:toolbar>
+	        
+					<p:dataTable var="transaction" style="color: #000" id="transactionTable"
+						value="#{allTransactionView.transactionList}"
+						widgetVar="transactionTable"
+						emptyMessage="Aucune transaction trouvé."
+						filteredValue="#{allTransactionView.filteredTransactions}"
+						globalFilterFunction="#{allTransactionView.globalFilterFunction}"
+						paginator="true" rows="10" paginatorPosition="bottom">
+
+						<!-- Entête de la table -->
+						<f:facet name="header">
+							<div class="header">
+								<span>Liste de toutes Transactions</span>
+								<div class="flex justify-content-end">
+									<!-- Barre de recherche -->
+									<p:inputText id="globalFilter"
+										onkeyup="PF('transactionTable').filter()" style="width:300px"
+										placeholder="Recherche globale" />
+								</div>
+							</div>
+						</f:facet>
+
+						<!-- Colonnes de données -->
+						<p:column headerText="Client" sortBy="#{transaction.client.nom}"
+							filterBy="#{transaction.client.nom}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{transaction.client.nom}" />
+						</p:column>
+						<p:column headerText="Portefeuille"
+							sortBy="#{transaction.portefeuille.libelle}"
+							filterBy="#{transaction.portefeuille.libelle}"
+							filterMatchMode="contains" filterPlaceholder=""
+							style="width: fit-content">
+							<h:outputText value="#{transaction.portefeuille.libelle}" />
+						</p:column>
+						<p:column headerText="Date"
+							sortBy="#{transaction.date_transaction}"
+							filterBy="#{transaction.date_transaction}"
+							filterMatchMode="contains" filterPlaceholder=""
+							style="width: fit-content">
+							<h:outputText value="#{transaction.date_transaction}" />
+						</p:column>
+						<p:column field="sens" headerText="Sens" filterMatchMode="exact"
+							sortBy="sens">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('transactionTable').filter()"
+									styleClass="ui-custom-filter" style="width: 100%">
+									<f:selectItem itemLabel="Tous" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Achat" itemValue="Achat" />
+									<f:selectItem itemLabel="Vente" itemValue="Vente" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{transaction.sens}" />
+						</p:column>
+						<p:column headerText="Montant" sortBy="#{transaction.montant}"
+							filterBy="#{transaction.montant}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{transaction.montant}" />
+						</p:column>
+						<p:column field="devise" headerText="Devise"
+							filterMatchMode="exact" sortBy="#{transaction.devise}">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('transactionTable').filter()"
+									styleClass="ui-custom-filter" style="width: 100%">
+									<f:selectItem itemLabel="Tous" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{allTransactionView.deviseList}" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{transaction.devise}" />
+						</p:column>
+						<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
+							filterBy="#{transaction.nbrPart}" filterMatchMode="contains"
+							filterPlaceholder="" style="width: fit-content">
+							<h:outputText value="#{transaction.nbrPart}" />
+						</p:column>
+						<!-- 						<p:column headerText="VL" sortBy="#{transaction.valeur}" -->
+						<!-- 							filterBy="#{transaction.valeur}" filterMatchMode="contains" -->
+						<!-- 							filterPlaceholder="" style="width: fit-content"> -->
+						<!-- 							<h:outputText value="#{transaction.valeur}" /> -->
+						<!-- 						</p:column> -->
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</p:card>
+</h:body>
+
+</html>

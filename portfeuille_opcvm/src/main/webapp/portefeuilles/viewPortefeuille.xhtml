@@ -1,0 +1,224 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Portfeuille OPCVM - Détails Portefeuille</title>
+	<link rel="stylesheet"
+		href="https://unpkg.com/primeflex@latest/primeflex.css" />
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/css/primeicons.css" />
+
+	<style>
+body {
+	color: #495057;
+}
+
+h2 {
+	color: #ffae00;
+}
+
+.ui-tabs-header a {
+	color: #495057 !important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-active {
+	border-bottom: 2px solid #495057 !important;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.column {
+	width: fit-content !important;
+}
+
+.link {
+	text-decoration: none !important;
+	color: #495057;
+	cursor: pointer;
+}
+
+.link:hover {
+	color: #ffae00;
+	text-decoration: underline;
+}
+</style>
+</h:head>
+
+<h:body style="background-color: #f2f2f2;">
+	<p:card
+		style="margin: auto; width: 90%; margin-top: 3rem; margin-bottom: 3rem; padding: 16px">
+		<h:form>
+			<p:growl id="growl" showDetail="true" />
+
+			<div
+				style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="mt-0">Portefeuille #{portefeuilleView.libelle}</h2>
+
+				<p:button outcome="/index.xhtml" value="Retour"
+					icon="pi pi-arrow-left"
+					style="margin-right:20px; background-color: #ffae00; border: #ffae00">
+				</p:button>
+			</div>
+			<br/>
+
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Libellé :" />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.libelle}" />						
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Type d'OPCVM :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.selectedTypeOPCVM}" />
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Société de Gestion :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.selectedSocieteGest.nom}" />
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Nombre de Parts Total :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.nbrPart}" />
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Type d'Investissement :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.selectedTypeInvest}" />
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Objectif :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.selectedObjectif}" />
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Horizon de Placement :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.selectedHorizon}" />
+					</STRONG>
+				</div>
+			</div>
+			
+			<div class="field grid">
+				<p:outputLabel  styleClass="col-fixed"
+					style="width: 40%; margin-left: 200px" value="Profil de Risque :"  />
+				<div class="col">
+					<STRONG>
+						<p:outputLabel value="#{portefeuilleView.selectedProfileRisque}" />
+					</STRONG>
+				</div>
+			</div>
+		</h:form>
+
+		<br/>
+		
+		<h:form>
+			<p:toolbar>
+	            <p:toolbarGroup align="right">
+		            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
+	                    <p:dataExporter type="xlsx" target="clientTable" fileName="clients_portefeuille_#{portefeuilleView.libelle}" />
+	                </p:commandButton>
+		        </p:toolbarGroup>
+	        </p:toolbar>
+        
+		    <p:dataTable id="clientTable" var="client" value="#{portefeuilleView.distinctClientsForPortefeuille}"
+		                 widgetVar="clientTable" emptyMessage="Aucun client trouvé."
+		                 paginator="true" rows="10" paginatorPosition="bottom">
+		
+		        <f:facet name="header">
+		            <div class="header">
+		                <span>Liste des Clients Souscrits</span>
+		                <div class="flex justify-content-end">
+		                    <p:inputText id="globalFilter" onkeyup="PF('clientTable').filter()" 
+		                                 style="width:300px" placeholder="Recherche globale" />
+		                </div>
+		            </div>
+		        </f:facet>
+		
+		        <p:column headerText="Nom" sortBy="#{client.nom}" filterBy="#{client.nom}">
+		            <h:outputText value="#{client.nom}" />
+		        </p:column>
+		        <p:column headerText="Email" sortBy="#{client.email}" filterBy="#{client.email}">
+		            <h:outputText value="#{client.email}" />
+		        </p:column>
+		        <p:column headerText="Téléphone" sortBy="#{client.telephone}" filterBy="#{client.telephone}">
+		            <h:outputText value="#{client.telephone}" />
+		        </p:column>
+		        <p:column headerText="F. Juridique" sortBy="#{client.formeJuridique}" filterBy="#{client.formeJuridique}">
+				    <f:facet name="filter">
+				        <p:selectOneMenu onchange="PF('clientTable').filter()"
+				                         styleClass="ui-custom-filter" style="width: 100%">
+				            <f:selectItem itemLabel="Tous" itemValue="" />
+				            <f:selectItems value="#{portefeuilleView.formeJuridList}" />
+				        </p:selectOneMenu>
+				    </f:facet>
+				    <h:outputText value="#{client.formeJuridique}" />
+				</p:column>
+				<p:column headerText="Nature" sortBy="#{client.nature}" filterBy="#{client.nature}">
+				    <f:facet name="filter">
+				        <p:selectOneMenu onchange="PF('clientTable').filter()"
+				                         styleClass="ui-custom-filter" style="width: 100%">
+				            <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true"  />
+				            <f:selectItem itemLabel="Entreprise" itemValue="Entreprise" />
+				            <f:selectItem itemLabel="Personne" itemValue="Personne" />
+				        </p:selectOneMenu>
+				    </f:facet>
+				    <h:outputText value="#{client.nature}" />
+				</p:column>
+		        <p:column headerText="Nbr Parts" sortBy="#{client.totalParts}" filterBy="#{client.totalParts}">
+		            <h:outputText value="#{client.totalParts}" />
+		        </p:column>
+<!-- 		        <p:column headerText="Montant Total" sortBy="#{client.totalAmount}" filterBy="#{client.totalAmount}"> -->
+<!-- 		            <h:outputText value="#{client.totalAmount}" /> -->
+<!-- 		        </p:column> -->
+		    </p:dataTable>
+		</h:form>
+
+	</p:card>
+</h:body>
+
+</html>
