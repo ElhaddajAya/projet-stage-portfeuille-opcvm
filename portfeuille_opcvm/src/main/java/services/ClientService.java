@@ -12,6 +12,7 @@ import org.hibernate.query.Query;
 
 import entities.Client;
 import entities.Court;
+import entities.Portefeuille;
 import entities.Transaction;
 import utils.HibernateUtil;
 
@@ -43,11 +44,17 @@ public class ClientService {
 			// Dissociate transactions from portefeuille
 			Query<Transaction> query = session.createQuery("FROM Transaction WHERE client = :client",
 					Transaction.class);
-			query.setParameter("client", client);
+			query.setParameter("client", client);	
 			List<Transaction> transactions = query.list();
-			for (Transaction transaction : transactions) {
-				session.delete(transaction);
-			}
+	        for (Transaction transaction : transactions) {
+	            // Mettre à jour le nombre de parts du portefeuille
+	            Portefeuille portefeuille = transaction.getPortefeuille();
+	            portefeuille.setNbrPart(portefeuille.getNbrPart() - transaction.getNbrPart());
+	            session.update(portefeuille); // Mettre à jour le portefeuille dans la base de données
+
+	            // Supprimer la transaction
+	            session.delete(transaction);
+	        }
 
 			session.delete(client);
 			session.getTransaction().commit();

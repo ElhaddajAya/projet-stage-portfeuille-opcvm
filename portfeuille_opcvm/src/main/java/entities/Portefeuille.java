@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -52,10 +51,10 @@ public class Portefeuille {
 	@Column(name = "type_invest", nullable = false)
 	private String typeInvest;
 
-	@OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public List<Transaction> transactions;
 	
-    @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	private List<Court> cours;
 	
 	public Portefeuille() {

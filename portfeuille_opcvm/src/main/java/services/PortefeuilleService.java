@@ -106,21 +106,26 @@ public class PortefeuilleService {
 	}
 	
 	public void deletePortefeuille(Portefeuille ptf) {
-		try (Session session = sessionFactory.openSession()) {
+	    try (Session session = sessionFactory.openSession()) {
 	        session.beginTransaction();
 
-	        // Dissociate transactions from portefeuille
-	        Query<Transaction> query = session.createQuery("FROM Transaction WHERE portefeuille = :ptf", Transaction.class);
-	        query.setParameter("ptf", ptf);
-	        List<Transaction> transactions = query.list();
-	        for (Transaction transaction : transactions) {
-	            session.delete(transaction);
+	        // Charger le portefeuille géré par la session
+	        Portefeuille managedPortefeuille = session.get(Portefeuille.class, ptf.getId());
+
+	        // Vérifier que le portefeuille existe et est géré par la session
+	        if (managedPortefeuille != null) {
+	            // Dissocier et supprimer les transactions associées
+	            for (Transaction transaction : managedPortefeuille.getTransactions()) {
+	                transaction.setPortefeuille(null);  // Dissocier le portefeuille
+	                session.delete(transaction);  // Supprimer la transaction
+	            }
+
+	            // Supprimer le portefeuille
+	            session.delete(managedPortefeuille);
 	        }
 
-	        // Delete the portefeuille
-	        session.delete(ptf);
 	        session.getTransaction().commit();
-    	}
+	    }
 	}
 
 	public List<Transaction> getAllTransactionsForPortefeuille(Long ptfId) {

@@ -86,7 +86,7 @@ public class ChartView implements Serializable {
         }
 
         lineModel.addSeries(series);
-        lineModel.setTitle("Coût du Portefeuille en Fonction de la Date");
+        lineModel.setTitle("Coût du Portefeuille "+ portefeuille.getLibelle() + " en Fonction de Date");
         lineModel.setLegendPosition("e");
         lineModel.setShowPointLabels(true);
 

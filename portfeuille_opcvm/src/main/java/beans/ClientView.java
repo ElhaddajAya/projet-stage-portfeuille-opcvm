@@ -153,7 +153,7 @@ public class ClientView {
 
 	public void delete(Client client) {
 		clService.deleteClient(client.getId());
-		addMessage("Confirmed", "Record deleted");
+		addMessage("Succès", "Client supprimé avec succés!");
 		clientList = clService.getAllClients(); // Refresh the list
 	}
 
@@ -178,5 +178,9 @@ public class ClientView {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Client mis à jour avec succès!"));
 		clientList = clService.getAllClients();
 	}
+	
+    public void toggleFields() {
+        // This method is intentionally left blank as the AJAX update handles the enabling/disabling
+    }
 
 }	

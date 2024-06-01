@@ -306,45 +306,39 @@ h2 {
 								required="true" mask="(212) 9-99999999" validateMask="true" />
 						</div>
 					</div>
-					<div class="ui-fluid formgrid grid">
-						<div class="field col-12 md:col-6">
-							<p:outputLabel for="formeJurid"
-								value="Forme Juridique (Optionnelle)" />
-							<p:selectOneMenu id="formeJurid"
-								value="#{clientView.formeJuridique}"
-								converter="formeJuridiqueConverter">
-								<f:selectItem itemLabel="" itemValue="" disabled="true" />
-								<f:selectItems value="#{clientView.formeList}" />
-								<f:facet name="footer">
-									<p:divider styleClass="mt-0" />
-									<h:outputText value="#{clientView.formeList.size()} options"
-										style="font-weight:bold;" />
-								</f:facet>
-							</p:selectOneMenu>
-						</div>
-						<div class="field col-12 md:col-6">
-							<p:outputLabel for="activitePrincipale"
-								value="Activité Principale (Optionnelle)" />
-							<p:inputText id="activitePrincipale"
-								value="#{clientView.activitePrincipale}" required="false" />
-						</div>
-					</div>
-
+					
 					<div class="ui-fluid formgrid grid">
 						<div class="field col-12 md:col-10">
-							<p:outputLabel for="adress" value="Adresse Postale" />
-							<p:inputText id="adress" value="#{clientView.adressePostale}"
-								required="true" />
-						</div>
-						<div class="field col-12 md:col-2">
-							<p:outputLabel for="entreprise" value="Entreprise" />
-							<br />
-							<p:selectBooleanButton id="entreprise" onLabel="Oui"
-								offLabel="Non" style="width:100%"
-								value="#{clientView.estPhysique}" />
-
-						</div>
+				            <p:outputLabel for="adress" value="Adresse Postale" />
+				            <p:inputText id="adress" value="#{clientView.adressePostale}" required="true" />
+				        </div>
+				        <div class="field col-12 md:col-2">
+				            <p:outputLabel for="entreprise" value="Entreprise" />
+				            <br />
+				 			<p:selectBooleanButton id="entreprise" onLabel="Oui" offLabel="Non" style="width:100%" value="#{clientView.estPhysique}">
+				                <p:ajax update="formeJurid activitePrincipale" listener="#{clientView.toggleFields}" />
+				            </p:selectBooleanButton>
+   				        </div>
 					</div>
+					
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-6">
+				            <p:outputLabel for="formeJurid" value="Forme Juridique (Optionnelle)" />
+				            <p:selectOneMenu id="formeJurid" value="#{clientView.formeJuridique}" converter="formeJuridiqueConverter" disabled="#{!clientView.estPhysique}">
+				                <f:selectItem itemLabel="" itemValue="" />
+				                <f:selectItems value="#{clientView.formeList}" />
+				                <f:facet name="footer">
+				                    <p:divider styleClass="mt-0" />
+				                    <h:outputText value="#{clientView.formeList.size()} options" style="font-weight:bold;" />
+				                </f:facet>
+				            </p:selectOneMenu>
+				        </div>
+				        <div class="field col-12 md:col-6">
+				            <p:outputLabel for="activitePrincipale" value="Activité Principale (Optionnelle)" />
+				            <p:inputText id="activitePrincipale" value="#{clientView.activitePrincipale}" required="false" disabled="#{!clientView.estPhysique}" />
+				        </div>
+					</div>
+					
 					<br />
 					<div class="ui-fluid formgrid grid">
 						<div class="field col-12 md:col-12">

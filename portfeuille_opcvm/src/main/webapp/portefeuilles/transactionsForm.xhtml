@@ -80,8 +80,7 @@ h2 {
 				<div class="field col-12 md:col-6">
 					<p:outputLabel for="client" value="Client" />
 					<p:selectOneMenu id="client" required="true"
-						value="#{transactionView.selectedClient}"
-						converter="clientConverter">
+						value="#{transactionView.selectedClient}">
 						<f:selectItem itemLabel="" itemValue="" disabled="true" />
 						<f:selectItems value="#{transactionView.clientList}" var="client"
 							itemLabel="#{client.nom}" itemValue="#{client}" />
@@ -151,12 +150,11 @@ h2 {
 						update="growl" />
 				</div>
 			</div>
-		</h:form>
 
 		<p:divider />
 		<br/>
+		
 		<!-- *****************Liste des transactions effectués dans le portefeuille courant****************++ -->
-		<h:form>
 			<p:toolbar>
 	            <p:toolbarGroup align="right">
 		            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
