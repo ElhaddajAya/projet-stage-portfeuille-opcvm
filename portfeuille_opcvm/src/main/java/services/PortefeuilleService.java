@@ -76,14 +76,16 @@ public class PortefeuilleService {
 	}
 
 
-    public Portefeuille getPortefeuilleById(Long portefeuilleId) {
-    	 try (Session session = sessionFactory.openSession()) {
+	public Portefeuille getPortefeuilleById(Long portefeuilleId) {
+	    try (Session session = sessionFactory.openSession()) {
 	        Portefeuille portefeuille = session.get(Portefeuille.class, portefeuilleId);
 	        // Initialize transactions collection
 	        Hibernate.initialize(portefeuille.getTransactions());
+	        // Initialize cours collection
+	        Hibernate.initialize(portefeuille.getCours());
 	        return portefeuille;
 	    }
-    }
+	}
 
 	public Portefeuille getPortefeuilleByLibelle(String libelle) {
 		try (Session session = sessionFactory.openSession()) {

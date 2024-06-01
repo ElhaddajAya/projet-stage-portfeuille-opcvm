@@ -55,6 +55,9 @@ public class Portefeuille {
 	@OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	public List<Transaction> transactions;
 	
+    @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE)
+	private List<Court> cours;
+	
 	public Portefeuille() {
 		super();
 	}

@@ -217,12 +217,14 @@ h2 {
 						<p:column headerText="Libellé" sortBy="#{portefeuille.libelle}"
 							filterBy="#{portefeuille.libelle}" filterMatchMode="contains"
 							filterPlaceholder="" style="width: fit-content">
-							<h:link value="#{portefeuille.libelle}"
-								outcome="/portefeuilles/performance.xhtml">
+							<h:link value="#{portefeuille.libelle}" id="libelle"
+								outcome="/portefeuilles/chart.xhtml">
 								<f:param name="portefeuilleId" value="#{portefeuille.id}" />
 								<i class="pi pi-external-link"
-									style="margin-left: 5px; font-size: 14px"></i>
+									style="margin-left: 5px; color: #495057; font-size: 14px"></i>
 							</h:link>
+							<p:tooltip for="libelle"
+									value="Consulter la Garphe du Coût" position="top" />
 						</p:column>
 						<p:column field="typeOpcvm" headerText="Type d'OPCVM"
 							filterMatchMode="exact" sortBy="#{portefeuille.typeOpcvm}">

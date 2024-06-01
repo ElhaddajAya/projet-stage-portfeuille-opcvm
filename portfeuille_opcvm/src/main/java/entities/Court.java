@@ -32,7 +32,7 @@ public class Court {
 
     private double cout;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "portefeuille_id")
     private Portefeuille portefeuille;
 
