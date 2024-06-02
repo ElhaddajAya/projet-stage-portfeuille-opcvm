@@ -666,6 +666,11 @@ h2 {
 						</f:facet>
 
 						<!-- Colonnes de données -->
+						<p:column headerText="ID" sortBy="#{transaction.client.id}"
+							filterBy="#{transaction.client.id}" filterMatchMode="equals"
+							filterPlaceholder="" style="width: 80px">
+							<h:outputText value="#{transaction.client.id}" />
+						</p:column>
 						<p:column headerText="Client" sortBy="#{transaction.client.nom}"
 							filterBy="#{transaction.client.nom}" filterMatchMode="contains"
 							filterPlaceholder="" style="width: fit-content">
@@ -776,7 +781,7 @@ h2 {
 					<p:toolbar>
 			            <p:toolbarGroup align="right">
 				            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
-			                    <p:dataExporter type="xlsx" target="coursTable" fileName="coursTable" />
+			                    <p:dataExporter type="xlsx" target="coursTable" fileName="coursTable"/>
 			                </p:commandButton>
 				        </p:toolbarGroup>
 			        </p:toolbar>
@@ -786,7 +791,7 @@ h2 {
 						emptyMessage="Aucun cours trouvé."
 						filteredValue="#{coursView.filteredCourts}"
 						globalFilterFunction="#{coursView.globalFilterFunction}"
-						paginator="true" rows="10" paginatorPosition="bottom">
+						paginator="true" rows="8" paginatorPosition="bottom">
 
 						<!-- Entête de la table -->
 						<f:facet name="header">
@@ -825,6 +830,17 @@ h2 {
 				        <p:column headerText="Date" sortBy="#{cout.date}" filterBy="#{cout.date}">
 				            <h:outputText value="#{cout.date}" />
 				        </p:column>
+				        
+				        <!-- Colonne d'actions -->
+						<p:column headerText="" style="width: 50px" exportable="false">
+							<div class="actions">
+								<!-- Bouton pour supprimer -->
+								<p:commandButton id="deleteButton#{cout.id}"
+									icon="pi pi-trash" styleClass="rounded-button ui-button-danger"
+									action="#{coursView.delete(cout.id)}"
+									update="@form" />
+							</div>
+						</p:column>
 				    </p:dataTable>
 				</h:form>
 			</p:tab>

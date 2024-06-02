@@ -84,5 +84,13 @@ public class CoursView {
 	            || court.getDate().toString().toLowerCase(locale).contains(filterText);
 	}
 
+	public void delete(Long id) {
+		crService.deleteCours(id);
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Coût supprimé avec succès!"));
+
+		courtList = ptfService.getAllCourts();
+	}
 
 }

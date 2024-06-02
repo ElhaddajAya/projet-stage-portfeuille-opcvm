@@ -41,8 +41,20 @@ public class CoursService {
 
 	public List<Court> getAllCours() {
 		try (Session session = sessionFactory.openSession()) {
-			Query<Court> query = session.createQuery("from Court", Court.class);
-			return query.list();
+			String hql = "SELECT c1 FROM Court c1 WHERE c1.date = (" +
+                    	"SELECT MAX(c2.date) FROM Court c2 WHERE c2.portefeuille.id = c1.portefeuille.id)";
+	       Query<Court> query = session.createQuery(hql, Court.class);
+	       return query.list();
+		}
+	}
+	
+	public void deleteCours(Long id) {
+		try (Session session = sessionFactory.openSession()) {
+			session.beginTransaction();
+			Court c = session.find(Court.class, id);
+			
+			session.delete(c);
+			session.getTransaction().commit();
 		}
 	}
 	

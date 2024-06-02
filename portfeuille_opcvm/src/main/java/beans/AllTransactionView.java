@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import entities.Client;
+import entities.Court;
 import entities.Portefeuille;
 import entities.Transaction;
 import lombok.Data;
@@ -31,6 +32,8 @@ public class AllTransactionView {
 	@Inject
 	private PortefeuilleService ptfService;
 
+	private Court dernierCout;
+	
 	private int nbrPart;
 	private int valeur;
 	private double montant;
@@ -122,4 +125,5 @@ public class AllTransactionView {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Transaction supprimée avec succès!"));
         transactionList = trService.getAllTransactions();
 	}
+
 }
