@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import entities.Client;
+import entities.Court;
 import entities.Portefeuille;
 import entities.Transaction;
 import lombok.Data;
@@ -44,6 +45,7 @@ public class TransactionView {
 	private int valeur;
 	private int nbrPart;
 	private Portefeuille portefeuille;
+	private double cout;
 	
 	private List<Transaction> transactionList;
 	private List<Transaction> filteredTransactions;
@@ -80,6 +82,11 @@ public class TransactionView {
         
         transactionList = new ArrayList<>();
         transactionList = trService.getAllTransactionsForPortefeuille(portefeuilleId);
+        
+        Court latestCourt = ptfService.getLatestCourtForPortefeuille(portefeuilleId);
+        if (latestCourt != null) {
+            cout = latestCourt.getCout();
+        }
 	}
 	
 	/* Methode pour filtrer les colonnes du tableau */

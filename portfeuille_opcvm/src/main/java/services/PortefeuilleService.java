@@ -57,24 +57,20 @@ public class PortefeuilleService {
 		}
 	}
 
-	// methode pour recuppere les coûts d'un portefeuille (valeur liquidative)
-	public List<Court> getCourtsByPortefeuille(Portefeuille portefeuille) {
-		try (Session session = sessionFactory.openSession()) {
-			Query<Court> query = session.createQuery("from Court where portefeuille.id = :portefeuilleId", Court.class);
-			query.setParameter("portefeuilleId", portefeuille);
-			return query.list();
-		}
-	}
+    public List<Court> getCourtsByPortefeuille(Portefeuille portefeuille) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Court> query = session.createQuery("from Court where portefeuille.id = :portefeuilleId", Court.class);
+            query.setParameter("portefeuilleId", portefeuille.getId());
+            return query.list();
+        }
+    }
 
-	
-
-	public List<Court> getAllCourts() {
-		try (Session session = sessionFactory.openSession()) {
-			Query<Court> query = session.createQuery("from Court", Court.class);
-			return query.list();
-		}
-	}
-
+    public List<Court> getAllCourts() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Court> query = session.createQuery("from Court", Court.class);
+            return query.list();
+        }
+    }
 
 	public Portefeuille getPortefeuilleById(Long portefeuilleId) {
 	    try (Session session = sessionFactory.openSession()) {
@@ -170,5 +166,25 @@ public class PortefeuilleService {
 	        return clients;
 	    }
 	}
+	
+    public Court getLatestCourtForPortefeuille(Long portefeuilleId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Court> query = session.createQuery(
+                "FROM Court WHERE portefeuille.id = :portefeuilleId ORDER BY date DESC", 
+                Court.class
+            );
+            query.setParameter("portefeuilleId", portefeuilleId);
+            query.setMaxResults(1);
+            return query.uniqueResult();
+        }
+    }
+    
+    public void addCourt(Court court) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.save(court);
+            session.getTransaction().commit();
+        }
+    }
 	
 }

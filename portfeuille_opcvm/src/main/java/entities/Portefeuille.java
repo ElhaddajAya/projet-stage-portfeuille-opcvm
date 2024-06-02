@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -51,14 +52,16 @@ public class Portefeuille {
 	@Column(name = "type_invest", nullable = false)
 	private String typeInvest;
 
-	@OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "portefeuille", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	public List<Transaction> transactions;
 	
-    @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Court> cours;
 	
 	public Portefeuille() {
 		super();
+		this.transactions = new ArrayList<>();
+	    this.cours = new ArrayList<>();
 	}
 
 	public Portefeuille(Long id, String libelle, int nbrPart, SocieteGestion societeGestion, String typeOpcvm,
@@ -87,5 +90,10 @@ public class Portefeuille {
 		this.profileRisque = profileRisque;
 		this.typeInvest = typeInvest;
 	}
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
 
 }

@@ -16,7 +16,7 @@
 		<converter-class>utils.ClientConverter</converter-class>
 	</converter>
 	<converter>
-		<converter-id>portefeiulleConverter</converter-id>
+		<converter-id>portefeuilleConverter</converter-id>
 		<converter-class>utils.PortefeuilleConverter</converter-class>
 	</converter>
 </faces-config>

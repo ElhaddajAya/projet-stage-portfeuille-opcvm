@@ -80,7 +80,8 @@ h2 {
 				<div class="field col-12 md:col-6">
 					<p:outputLabel for="client" value="Client" />
 					<p:selectOneMenu id="client" required="true"
-						value="#{transactionView.selectedClient}">
+						value="#{transactionView.selectedClient}"
+						converter="clientConverter">
 						<f:selectItem itemLabel="" itemValue="" disabled="true" />
 						<f:selectItems value="#{transactionView.clientList}" var="client"
 							itemLabel="#{client.nom}" itemValue="#{client}" />
@@ -120,12 +121,18 @@ h2 {
 				</div>
 			</div>
 			<div class="ui-fluid formgrid grid">
-				<div class="field col-12 md:col-6">
+				<div class="field col-12 md:col-4">
+			        <p:outputLabel for="cout" value="Coût" />
+			        <p:inputNumber id="cout" value="#{transactionView.cout}"
+			            symbol=" MAD" disabled="true" readonly="true"
+			            symbolPosition="s" decimalSeparator="," thousandSeparator="." />
+			    </div>
+				<div class="field col-12 md:col-4">
 					<p:outputLabel for="montant" value="Montant" />
 					<p:inputNumber id="montant" value="#{transactionView.montant}"
 						required="true" modifyValueOnWheel="false" />
 				</div>
-				<div class="field col-12 md:col-6">
+				<div class="field col-12 md:col-4">
 					<p:outputLabel for="devise" value="Devise" />
 					<p:selectOneMenu id="devise" required="true"
 						value="#{transactionView.selectedDevise}">

@@ -728,6 +728,47 @@ h2 {
 					</p:dataTable>
 				</h:form>
 			</p:tab>
+			
+			<!-- *************** Cours *************** -->
+			<p:tab title="Cours" id="tab5">
+				<h:form>
+					<p:growl id="growl" showDetail="true" />
+
+					<div class="ui-fluid formgrid grid mt-4">
+						<div class="field col-12 md:col-6">
+				            <p:outputLabel for="portefeuille" value="Portefeuille" />
+				            <p:selectOneMenu id="portefeuille" required="true"
+				                value="#{coursView.selectedPortefeuille}"
+				                converter="portefeuilleConverter">
+				                <f:selectItem itemLabel="" itemValue="" disabled="true" />
+				                <f:selectItems value="#{coursView.portefeuilleList}" var="portefeuille"
+				                    itemLabel="#{portefeuille.libelle}" itemValue="#{portefeuille}" />
+				                <f:facet name="footer">
+				                    <p:divider styleClass="mt-0" />
+				                    <h:outputText
+				                        value="#{coursView.portefeuilleList.size()} options"
+				                        style="font-weight:bold;" />
+				                </f:facet>
+				            </p:selectOneMenu>
+				        </div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="valeur" value="Coût" />
+							<p:inputNumber id="valeur" value="#{coursView.cout}"
+								required="true" symbol=" MAD"
+                                symbolPosition="s" decimalSeparator="," thousandSeparator="." />
+						</div>
+					</div>
+					
+					<br />
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-12">
+							<p:commandButton type="submit" value="Enregistrer"
+								style="background-color: #ffae00; border-color: #ffae00;"
+								update="growl" action="#{coursView.save()}" />
+						</div>
+					</div>
+				</h:form>
+			</p:tab>
 		</p:tabView>
 	</p:card>
 </h:body>

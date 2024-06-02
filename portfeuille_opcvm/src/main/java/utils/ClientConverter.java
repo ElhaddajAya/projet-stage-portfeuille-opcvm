@@ -6,12 +6,13 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import beans.AllTransactionView;
+import beans.CoursView;
 import beans.PortefeuilleView;
 import beans.TransactionView;
 import entities.Client;
-import entities.Transaction;
+import entities.Portefeuille;
 
-@FacesConverter(forClass = Client.class)
+@FacesConverter("portefeuilleConverter")
 public class ClientConverter implements Converter {
 
     @Override
@@ -19,23 +20,37 @@ public class ClientConverter implements Converter {
         if (value == null || value.isEmpty()) {
             return null;
         }
-        AllTransactionView allTransactionView = context.getApplication().evaluateExpressionGet(context, "#{allTransactionView}", AllTransactionView.class);
-        for (Client client : allTransactionView.getClientList()) {
-            if (String.valueOf(client.getId()).equals(value)) {
-                return client;
+        try {
+            Long id = Long.valueOf(value);
+            // Essayer de récupérer leclient depuis TransactionView
+            TransactionView trView = context.getApplication().evaluateExpressionGet(context, "#{transactionView}", TransactionView.class);
+            if (trView != null && trView.getClientList() != null) {
+                for (Client p : trView.getClientList()) {
+                    if (p.getId().equals(id)) {
+                        return p;
+                    }
+                }
             }
-        }
-        TransactionView transactionView = context.getApplication().evaluateExpressionGet(context, "#{transactionView}", TransactionView.class);
-        for(Client client : transactionView.getClientList()) {
-        	if (String.valueOf(client.getId()).equals(value)) {
-                return client;
+            // Si non trouvé dans CoursView, essayer de récupérer depuis AllTransactionView
+            AllTransactionView allTransactionView = context.getApplication().evaluateExpressionGet(context, "#{allTransactionView}", AllTransactionView.class);
+            if (allTransactionView != null && allTransactionView.getPortefeuilleList() != null) {
+                for (Client c : allTransactionView.getClientList()) {
+                    if (c.getId().equals(id)) {
+                        return c;
+                    }
+                }
             }
-        }
-        PortefeuilleView portefeuilleView = context.getApplication().evaluateExpressionGet(context, "#{portefeuilleView}", PortefeuilleView.class);
-        for(Client client : portefeuilleView.getClientList()) 	{
-        	if (String.valueOf(client.getId()).equals(value)) {
-                return client;
+            // Si non trouvé dans Portefeuille, essayer de récupérer depuis AllTransactionView
+            PortefeuilleView pView = context.getApplication().evaluateExpressionGet(context, "#{portefeuilleView}", PortefeuilleView.class);
+            if (pView != null && pView.getPortefeuilleList() != null) {
+                for (Client c : pView.getClientList()) {
+                    if (c.getId().equals(id)) {
+                        return c;
+                    }
+                }
             }
+        } catch (NumberFormatException e) {
+            System.err.println("Erreur de conversion : " + e.getMessage());
         }
         return null;
     }
@@ -43,8 +58,10 @@ public class ClientConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value instanceof Client) {
-            return String.valueOf(((Client) value).getId());
+            Client client = (Client) value;
+            return client.getId() != null ? client.getId().toString() : "";
         }
-        return null;
+        return "";
     }
 }
+
