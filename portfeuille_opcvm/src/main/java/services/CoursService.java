@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import utils.HibernateUtil;
 
@@ -31,7 +31,7 @@ public class CoursService {
 		}
 	}
 	
-	public void addCours(Court cours) {
+	public void addCours(Cours cours) {
 		try (Session session = sessionFactory.openSession()) {
 			session.beginTransaction();
 			session.save(cours);
@@ -39,11 +39,11 @@ public class CoursService {
 		}
 	}
 
-	public List<Court> getAllCours() {
+	public List<Cours> getAllCours() {
 		try (Session session = sessionFactory.openSession()) {
-			String hql = "SELECT c1 FROM Court c1 WHERE c1.date = (" +
-                    	"SELECT MAX(c2.date) FROM Court c2 WHERE c2.portefeuille.id = c1.portefeuille.id)";
-	       Query<Court> query = session.createQuery(hql, Court.class);
+			String hql = "SELECT c1 FROM Cours c1 WHERE c1.date = (" +
+                    	"SELECT MAX(c2.date) FROM Cours c2 WHERE c2.portefeuille.id = c1.portefeuille.id)";
+	       Query<Cours> query = session.createQuery(hql, Cours.class);
 	       return query.list();
 		}
 	}
@@ -51,7 +51,7 @@ public class CoursService {
 	public void deleteCours(Long id) {
 		try (Session session = sessionFactory.openSession()) {
 			session.beginTransaction();
-			Court c = session.find(Court.class, id);
+			Cours c = session.find(Cours.class, id);
 			
 			session.delete(c);
 			session.getTransaction().commit();

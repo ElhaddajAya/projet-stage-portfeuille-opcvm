@@ -17,7 +17,7 @@
 		<mapping class="entities.Client" />
 		<mapping class="entities.Portefeuille" />
 		<mapping class="entities.SocieteGestion" />
-		<mapping class="entities.Court" />
+		<mapping class="entities.Cours" />
 		<mapping class="entities.Transaction" />
 	</session-factory>
 </hibernate-configuration>

@@ -18,7 +18,7 @@ public class Main {
         session.createQuery("from SocieteGestion").list();
         session.createQuery("from Portefeuille").list();
         session.createQuery("from Transaction").list();
-        session.createQuery("from Court").list();
+        session.createQuery("from Cours").list();
 
         // Commit the transaction
         transaction.commit();

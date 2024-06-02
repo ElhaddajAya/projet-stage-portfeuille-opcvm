@@ -112,6 +112,20 @@ h2 {
 
 			<div class="ui-fluid formgrid grid">
 				<div class="field col-12 md:col-6">
+					<p:outputLabel for="devise" value="Devise" />
+					<p:selectOneMenu id="devise" required="true"
+						value="#{portefeuilleView.selectedDevise}">
+						<f:selectItem itemLabel="" itemValue="" disabled="true" />
+						<f:selectItems value="#{portefeuilleView.deviseList}" />
+						<f:facet name="footer">
+							<p:divider styleClass="mt-0" />
+							<h:outputText
+								value="#{portefeuilleView.deviseList.size()} options"
+								style="font-weight:bold;" />
+						</f:facet>
+					</p:selectOneMenu>
+				</div>
+				<div class="field col-12 md:col-6">
 					<p:outputLabel for="typesInvestissement"
 						value="Type d'Investissement" />
 					<p:selectOneMenu id="typesInvestissement" required="true"
@@ -126,7 +140,10 @@ h2 {
 						</f:facet>
 					</p:selectOneMenu>
 				</div>
-				<div class="field col-12 md:col-6">
+			</div>
+
+			<div class="ui-fluid formgrid grid">
+				<div class="field col-12 md:col-4">
 					<p:outputLabel for="objectif" value="Objectif" />
 					<p:selectOneMenu id="objectif" required="true"
 						value="#{portefeuilleView.selectedObjectif}">
@@ -140,11 +157,9 @@ h2 {
 						</f:facet>
 					</p:selectOneMenu>
 				</div>
-			</div>
-
-			<div class="ui-fluid formgrid grid">
-				<div class="field col-12 md:col-6">
-					<p:outputLabel for="horizonPlacement" value="Horizon de Placement" />
+				<div class="field col-12 md:col-4">
+					<p:outputLabel for="horizonPlacement"
+						value="Horizon de Placement" />
 					<p:selectOneMenu id="horizonPlacement" required="true"
 						value="#{portefeuilleView.selectedHorizon}">
 						<f:selectItem itemLabel="" itemValue="" disabled="true" />
@@ -157,7 +172,7 @@ h2 {
 						</f:facet>
 					</p:selectOneMenu>
 				</div>
-				<div class="field col-12 md:col-6">
+				<div class="field col-12 md:col-4">
 					<p:outputLabel for="profil" value="Profil de Risque" />
 					<p:selectOneMenu id="profil" required="true"
 						value="#{portefeuilleView.selectedProfileRisque}">

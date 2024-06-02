@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import entities.Client;
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import entities.Transaction;
 import lombok.Data;
@@ -36,16 +36,15 @@ public class TransactionView {
 	/************ Attributes ***********/
 	private Long portefeuilleId;
 	private String libelle;
+	private String devise;
 	
 	private Client selectedClient;
 	private String selectedSens;
-	private String selectedDevise;
 
 	private double montant;
-	private int valeur;
 	private int nbrPart;
 	private Portefeuille portefeuille;
-	private double cout;
+	private double vl;
 	
 	private List<Transaction> transactionList;
 	private List<Transaction> filteredTransactions;
@@ -55,39 +54,28 @@ public class TransactionView {
 	private List<String> deviseList;
 	
 	@PostConstruct
-	public void init() {
-		clientList = new ArrayList<>();
-		clientList = trService.getAllClients();
-		
-		deviseList = new ArrayList<>();
-		deviseList.add("MAD");
-		deviseList.add("EUR");
-		deviseList.add("USD");
-		deviseList.add("CAD");
-		deviseList.add("CHF");
-		deviseList.add("GPB");
-		deviseList.add("JPY");
-		deviseList.add("AUD");
-		deviseList.add("CNY");
-		deviseList.add("INR");
-		
-		// Récupérer l'ID du portefeuille depuis le paramètre de la requête
-		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		if (params.containsKey("portefeuilleId")) {
-		    portefeuilleId = Long.valueOf(params.get("portefeuilleId"));
-		    portefeuille = ptfService.getPortefeuilleById(portefeuilleId);
-		}
-        
-        libelle = trService.getPortefeuilleLibelleById(portefeuilleId);
-        
-        transactionList = new ArrayList<>();
-        transactionList = trService.getAllTransactionsForPortefeuille(portefeuilleId);
-        
-        Court latestCourt = ptfService.getLatestCourtForPortefeuille(portefeuilleId);
-        if (latestCourt != null) {
-            cout = latestCourt.getCout();
+    public void init() {
+        clientList = trService.getAllClients();
+        deviseList = List.of("MAD", "EUR", "USD", "CAD", "CHF", "GPB", "JPY", "AUD", "CNY", "INR");
+
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        if (params.containsKey("portefeuilleId")) {
+            try {
+                portefeuilleId = Long.valueOf(params.get("portefeuilleId"));
+                portefeuille = ptfService.getPortefeuilleById(portefeuilleId);
+                libelle = trService.getPortefeuilleLibelleById(portefeuilleId);
+                devise = portefeuille.getDevise();
+                transactionList = trService.getAllTransactionsForPortefeuille(portefeuilleId);
+
+                Cours latestCourt = ptfService.getLatestCourtForPortefeuille(portefeuilleId);
+                if (latestCourt != null) {
+                    vl = latestCourt.getCout();
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Portefeuille ID invalide"));
+            }
         }
-	}
+    }
 	
 	/* Methode pour filtrer les colonnes du tableau */
 	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
@@ -101,9 +89,8 @@ public class TransactionView {
 	    		|| String.valueOf(tr.getSens()).toLowerCase().contains(filterText)
 	    		|| tr.getClient().getNom().toLowerCase().contains(filterText)
 	    		|| String.valueOf(tr.getDate_transaction()).contains(filterText)
-	    		|| tr.getDevise().toLowerCase().contains(filterText)
 	    		|| String.valueOf(tr.getMontant()).contains(filterText)
-	    		|| String.valueOf(tr.getValeur()).contains(filterText)
+	    		|| tr.getPortefeuille().getDevise().toLowerCase().contains(filterText)
 	            || String.valueOf(tr.getNbrPart()).toLowerCase().contains(filterText);
 	}
 	
@@ -112,9 +99,7 @@ public class TransactionView {
 	    Transaction transaction = new Transaction();
 	    transaction.setMontant(montant);
 	    transaction.setSens(selectedSens);
-	    transaction.setValeur(valeur);
 	    transaction.setNbrPart(nbrPart);
-	    transaction.setDevise(selectedDevise);
 	    transaction.setClient(selectedClient);
 	    transaction.setPortefeuille(portefeuille);
 	    Date date_transaction = new Date();

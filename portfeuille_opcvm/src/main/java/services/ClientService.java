@@ -11,7 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import entities.Client;
-import entities.Court;
 import entities.Portefeuille;
 import entities.Transaction;
 import utils.HibernateUtil;

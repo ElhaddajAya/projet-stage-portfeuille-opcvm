@@ -17,7 +17,7 @@ import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import lombok.Data;
 import services.PortefeuilleService;
@@ -63,7 +63,7 @@ public class ChartView implements Serializable {
         LineChartSeries series = new LineChartSeries();
         series.setLabel(portefeuille.getLibelle());
 
-        List<Court> courts = portefeuille.getCours();
+        List<Cours> courts = portefeuille.getCours();
         if (courts == null || courts.isEmpty()) {
             System.out.println("Les données des cours sont vides");
             return;
@@ -72,7 +72,7 @@ public class ChartView implements Serializable {
         double minY = Double.MAX_VALUE;
         double maxY = Double.MIN_VALUE;
 
-        for (Court court : courts) {
+        for (Cours court : courts) {
             System.out.println("Ajout du point de données : " + court.getDate() + " - " + court.getCout());
             series.set(court.getDate(), court.getCout());
 
@@ -86,7 +86,7 @@ public class ChartView implements Serializable {
         }
 
         lineModel.addSeries(series);
-        lineModel.setTitle("Coût du Portefeuille "+ portefeuille.getLibelle() + " en Fonction de Date");
+        lineModel.setTitle("VL du Portefeuille "+ portefeuille.getLibelle() + " en Fonction de Date");
         lineModel.setLegendPosition("e");
         lineModel.setShowPointLabels(true);
 
@@ -96,7 +96,7 @@ public class ChartView implements Serializable {
         lineModel.getAxes().put(AxisType.X, xAxis);
 
         Axis yAxis = lineModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Coût");
+        yAxis.setLabel("VL");
         yAxis.setMin(minY);
         yAxis.setMax(maxY);
         yAxis.setTickFormat("%.0f"); // Afficher des nombres entiers sur l'axe Y avec une échelle logarithmique

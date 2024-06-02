@@ -1,8 +1,6 @@
 package beans;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -11,20 +9,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
-
 import entities.Client;
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import entities.SocieteGestion;
-import entities.Transaction;
 import lombok.Data;
 import services.PortefeuilleService;
 
@@ -48,14 +39,14 @@ public class PortefeuilleView implements Serializable {
 	/* Listes déroulantes */
 	private List<String> typeInvestList;
 	private List<String> typeOPCVMList;
-
+	private List<String> deviseList;
 	private List<String> objectifList;
 	private List<String> horizonList;
 	private List<String> profileRisqueList;
 	private List<String> formeJuridList;
 	private List<Client> clientList;
 	private List<SocieteGestion> societeGestionList;
-	private List<Court> courtList;
+	private List<Cours> courtList;
 
     private List<Client> distinctClientsForPortefeuille;
 	
@@ -71,6 +62,7 @@ public class PortefeuilleView implements Serializable {
 	private String selectedFormeJurid;
 	private Client selectedClient;
 	private SocieteGestion selectedSocieteGest;
+	private String selectedDevise;
 
 	/**** Post-onstructor ******/
 	@PostConstruct
@@ -90,6 +82,18 @@ public class PortefeuilleView implements Serializable {
 		objectifList.add("Revenu");
 		objectifList.add("Equilibre");
 
+		deviseList = new ArrayList<>();
+		deviseList.add("MAD");
+		deviseList.add("EUR");
+		deviseList.add("USD");
+		deviseList.add("CAD");
+		deviseList.add("CHF");
+		deviseList.add("GPB");
+		deviseList.add("JPY");
+		deviseList.add("AUD");
+		deviseList.add("CNY");
+		deviseList.add("INR");
+		
 		horizonList = new ArrayList<>();
 		horizonList.add("Court terme (0-1an)");
 		horizonList.add("Moyen terme (1-5ans)");
@@ -122,6 +126,7 @@ public class PortefeuilleView implements Serializable {
 	        // Populate the fields with the ptf's data
 	        libelle = ptf.getLibelle();
 	        nbrPart = ptf.getNbrPart(); 
+	        selectedDevise = ptf.getDevise();
 	        selectedTypeOPCVM = ptf.getTypeOpcvm();
 	        selectedSocieteGest = ptf.getSocieteGestion();
 	        selectedTypeInvest = ptf.getTypeInvest();
@@ -162,6 +167,7 @@ public class PortefeuilleView implements Serializable {
 		ptf.setSocieteGestion(selectedSocieteGest);
 		ptf.setTypeInvest(selectedTypeInvest);
 		ptf.setObjectif(selectedObjectif);
+		ptf.setDevise(selectedDevise);
 		ptf.setHorizon(selectedHorizon);
 		ptf.setProfileRisque(selectedProfileRisque);
 
@@ -184,6 +190,7 @@ public class PortefeuilleView implements Serializable {
 		return String.valueOf(portefeuille.getId()).toLowerCase().contains(filterText)
 				|| portefeuille.getLibelle().toLowerCase().contains(filterText)
 				|| portefeuille.getTypeOpcvm().toLowerCase().contains(filterText)
+				|| portefeuille.getDevise().toLowerCase().contains(filterText)
 				|| String.valueOf(portefeuille.getNbrPart()).contains(filterText)
 				|| portefeuille.getSocieteGestion().getNom().toLowerCase().contains(filterText)
 				|| String.valueOf(portefeuille.getNbrPart()).toLowerCase().contains(filterText);
@@ -207,6 +214,7 @@ public class PortefeuilleView implements Serializable {
 	    ptf.setTypeInvest(selectedTypeInvest);
 	    ptf.setObjectif(selectedObjectif);
 	    ptf.setHorizon(selectedHorizon);
+	    ptf.setDevise(selectedDevise);
 	    ptf.setProfileRisque(selectedProfileRisque);
 
 	    ptfService.updatePortefeuille(ptf);

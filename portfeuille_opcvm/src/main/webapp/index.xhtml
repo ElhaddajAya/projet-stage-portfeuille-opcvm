@@ -109,6 +109,20 @@ h2 {
 
 					<div class="ui-fluid formgrid grid">
 						<div class="field col-12 md:col-6">
+							<p:outputLabel for="devise" value="Devise" />
+							<p:selectOneMenu id="devise" required="true"
+								value="#{portefeuilleView.selectedDevise}">
+								<f:selectItem itemLabel="" itemValue="" disabled="true" />
+								<f:selectItems value="#{portefeuilleView.deviseList}" />
+								<f:facet name="footer">
+									<p:divider styleClass="mt-0" />
+									<h:outputText
+										value="#{portefeuilleView.deviseList.size()} options"
+										style="font-weight:bold;" />
+								</f:facet>
+							</p:selectOneMenu>
+						</div>
+						<div class="field col-12 md:col-6">
 							<p:outputLabel for="typesInvestissement"
 								value="Type d'Investissement" />
 							<p:selectOneMenu id="typesInvestissement" required="true"
@@ -123,7 +137,10 @@ h2 {
 								</f:facet>
 							</p:selectOneMenu>
 						</div>
-						<div class="field col-12 md:col-6">
+					</div>
+
+					<div class="ui-fluid formgrid grid">
+						<div class="field col-12 md:col-4">
 							<p:outputLabel for="objectif" value="Objectif" />
 							<p:selectOneMenu id="objectif" required="true"
 								value="#{portefeuilleView.selectedObjectif}">
@@ -137,10 +154,7 @@ h2 {
 								</f:facet>
 							</p:selectOneMenu>
 						</div>
-					</div>
-
-					<div class="ui-fluid formgrid grid">
-						<div class="field col-12 md:col-6">
+						<div class="field col-12 md:col-4">
 							<p:outputLabel for="horizonPlacement"
 								value="Horizon de Placement" />
 							<p:selectOneMenu id="horizonPlacement" required="true"
@@ -155,7 +169,7 @@ h2 {
 								</f:facet>
 							</p:selectOneMenu>
 						</div>
-						<div class="field col-12 md:col-6">
+						<div class="field col-12 md:col-4">
 							<p:outputLabel for="profil" value="Profil de Risque" />
 							<p:selectOneMenu id="profil" required="true"
 								value="#{portefeuilleView.selectedProfileRisque}">
@@ -224,7 +238,7 @@ h2 {
 									style="margin-left: 5px; color: #495057; font-size: 14px"></i>
 							</h:link>
 							<p:tooltip for="libelle"
-									value="Consulter la Garphe du Coût" position="top" />
+									value="Consulter la Garphe de Performance" position="top" />
 						</p:column>
 						<p:column field="typeOpcvm" headerText="Type d'OPCVM"
 							filterMatchMode="exact" sortBy="#{portefeuille.typeOpcvm}">
@@ -238,13 +252,25 @@ h2 {
 							</f:facet>
 							<h:outputText value="#{portefeuille.typeOpcvm}" />
 						</p:column>
-						<p:column headerText="Nombre de Part"
+						<p:column field="devise" headerText="Devise"
+							filterMatchMode="exact" sortBy="#{portefeuille.devise}">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('portefeuilleTable').filter()"
+									styleClass="ui-custom-filter" style="width: 100%">
+									<f:selectItem itemLabel="Tous" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{portefeuilleView.deviseList}" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{portefeuille.devise}" />
+						</p:column>
+						<p:column headerText="Nbr de Part"
 							sortBy="#{portefeuille.nbrPart}"
 							filterBy="#{portefeuille.nbrPart}" filterMatchMode="contains"
 							filterPlaceholder="" style="width: fit-content">
 							<h:outputText value="#{portefeuille.nbrPart}" />
 						</p:column>
-						<p:column headerText="Société de Gest."
+						<p:column headerText="Sté de Gest."
 							sortBy="#{portefeuille.societeGestion.nom}"
 							filterBy="#{portefeuille.societeGestion.nom}"
 							filterMatchMode="contains" filterPlaceholder=""
@@ -556,6 +582,7 @@ h2 {
 										value="#{allTransactionView.portefeuilleList.size()} options"
 										style="font-weight:bold;" />
 								</f:facet>
+				                <p:ajax listener="#{allTransactionView.updateDeviseAndCout}" update="devise cout" />
 							</p:selectOneMenu>
 						</div>
 						<div class="field col-12 md:col-6">
@@ -576,11 +603,23 @@ h2 {
 						</div>
 					</div>
 					<div class="ui-fluid formgrid grid">
-						<div class="field col-12 md:col-6">
+						<div class="field col-12 md:col-4">
+					        <p:outputLabel for="cout" value="Valeur Liquidative" />
+					        <p:inputNumber id="cout" value="#{allTransactionView.vl}"
+					           readonly="true" />
+					    </div>
+					    <div class="field col-12 md:col-4">
+							<p:outputLabel for="devise" value="Devise" />
+							<p:inputText id="devise" value="#{alltransactionView.devise}"
+								readonly="true" />
+						</div>
+						<div class="field col-12 md:col-4">
 							<p:outputLabel for="nbrPart" value="Nombre de Part " />
 							<p:inputNumber id="nbrPart" value="#{allTransactionView.nbrPart}"
 								minValue="1" decimalPlaces="0" required="true" />
 						</div>
+					</div>
+					<div class="ui-fluid formgrid grid">
 						<div class="field col-12 md:col-6">
 							<p:outputLabel for="sens" value="Sens" />
 							<p:selectOneMenu id="sens" required="true"
@@ -594,31 +633,10 @@ h2 {
 								</f:facet>
 							</p:selectOneMenu>
 						</div>
-					</div>
-					<div class="ui-fluid formgrid grid">
-						<div class="field col-12 md:col-4">
-							<p:outputLabel for="valeur" value="Valeur Liquidative" />
-							<p:inputNumber id="valeur" value="#{allTransactionView.valeur}"
-								required="true" minValue="1" decimalPlaces="0" />
-						</div>
-						<div class="field col-12 md:col-4">
+						<div class="field col-12 md:col-6">
 							<p:outputLabel for="montant" value="Montant" />
 							<p:inputNumber id="montant" value="#{allTransactionView.montant}"
 								required="true" modifyValueOnWheel="false" />
-						</div>
-						<div class="field col-12 md:col-4">
-							<p:outputLabel for="devise" value="Devise" />
-							<p:selectOneMenu id="devise" required="true"
-								value="#{allTransactionView.selectedDevise}">
-								<f:selectItem itemLabel="" itemValue="" disabled="true" />
-								<f:selectItems value="#{allTransactionView.deviseList}" />
-								<f:facet name="footer">
-									<p:divider styleClass="mt-0" />
-									<h:outputText
-										value="#{allTransactionView.deviseList.size()} options"
-										style="font-weight:bold;" />
-								</f:facet>
-							</p:selectOneMenu>
 						</div>
 					</div>
 
@@ -666,11 +684,11 @@ h2 {
 						</f:facet>
 
 						<!-- Colonnes de données -->
-						<p:column headerText="ID" sortBy="#{transaction.client.id}"
-							filterBy="#{transaction.client.id}" filterMatchMode="equals"
-							filterPlaceholder="" style="width: 80px">
-							<h:outputText value="#{transaction.client.id}" />
-						</p:column>
+<!-- 						<p:column headerText="ID" sortBy="#{transaction.client.id}" -->
+<!-- 							filterBy="#{transaction.client.id}" filterMatchMode="equals" -->
+<!-- 							filterPlaceholder="" style="width: 80px"> -->
+<!-- 							<h:outputText value="#{transaction.client.id}" /> -->
+<!-- 						</p:column> -->
 						<p:column headerText="Client" sortBy="#{transaction.client.nom}"
 							filterBy="#{transaction.client.nom}" filterMatchMode="contains"
 							filterPlaceholder="" style="width: fit-content">
@@ -709,16 +727,16 @@ h2 {
 							<h:outputText value="#{transaction.montant}" />
 						</p:column>
 						<p:column field="devise" headerText="Devise"
-							filterMatchMode="exact" sortBy="#{transaction.devise}">
+							filterMatchMode="exact" sortBy="#{transaction.portefeuille.devise}">
 							<f:facet name="filter">
 								<p:selectOneMenu onchange="PF('transactionTable').filter()"
 									styleClass="ui-custom-filter" style="width: 100%">
 									<f:selectItem itemLabel="Tous" itemValue="#{null}"
 										noSelectionOption="true" />
-									<f:selectItems value="#{allTransactionView.deviseList}" />
+									<f:selectItems value="#{transactionView.deviseList}" />
 								</p:selectOneMenu>
 							</f:facet>
-							<h:outputText value="#{transaction.devise}" />
+							<h:outputText value="#{transaction.portefeuille.devise}" />
 						</p:column>
 						<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
 							filterBy="#{transaction.nbrPart}" filterMatchMode="contains"
@@ -754,13 +772,26 @@ h2 {
 				                        value="#{coursView.portefeuilleList.size()} options"
 				                        style="font-weight:bold;" />
 				                </f:facet>
+		                        <f:ajax listener="#{coursView.updateDevise}" render="devise" />
 				            </p:selectOneMenu>
 				        </div>
+				        <div class="field col-12 md:col-6">
+							<p:outputLabel for="@next" value="Devise" />
+							<p:inputText id="devise" value="#{coursView.devise}"
+								readonly="true" />
+						</div>
+					</div>
+					
+					<div class="ui-fluid formgrid grid">
 						<div class="field col-12 md:col-6">
-							<p:outputLabel for="valeur" value="Coût" />
+							<p:outputLabel for="valeur" value="Valeur Liquidative" />
 							<p:inputNumber id="valeur" value="#{coursView.cout}"
-								required="true" symbol=" MAD"
-                                symbolPosition="s" decimalSeparator="," thousandSeparator="." />
+								required="true" modifyValueOnWheel="false"  />
+						</div>
+						<div class="field col-12 md:col-6">
+							<p:outputLabel for="date" value="Date" />
+							<p:datePicker id="date" value="#{coursView.date}"
+								required="true" modifyValueOnWheel="false"  />
 						</div>
 					</div>
 					
@@ -796,7 +827,7 @@ h2 {
 						<!-- Entête de la table -->
 						<f:facet name="header">
 							<div class="header">
-								<span>Liste des Derniers Coûts</span>
+								<span>Liste des Valeurs Liquidatives (Récentes)</span>
 								<div class="flex justify-content-end">
 									<!-- Barre de recherche -->
 									<p:inputText id="globalFilter"
@@ -806,7 +837,7 @@ h2 {
 							</div>
 						</f:facet>
 				
-				        <p:column headerText="ID Ptf" sortBy="#{cout.portefeuille.id}" filterBy="#{cout.portefeuille.id}">
+				        <p:column headerText="ID Ptf" sortBy="#{cout.portefeuille.id}" filterBy="#{cout.portefeuille.id}" style="width: 80px">
 				            <h:outputText value="#{cout.portefeuille.id}" />
 				        </p:column>
 				        <p:column headerText="Libellé" sortBy="#{cout.portefeuille.libelle}" filterBy="#{cout.portefeuille.libelle}">
@@ -824,7 +855,7 @@ h2 {
 							</f:facet>
 							<h:outputText value="#{cout.portefeuille.typeOpcvm}" />
 				        </p:column>
-				        <p:column headerText="Coût" sortBy="#{cout.cout}" filterBy="#{cout.cout}">
+				        <p:column headerText="VL" sortBy="#{cout.cout}" filterBy="#{cout.cout}">
 				            <h:outputText value="#{cout.cout} MAD" />
 				        </p:column>
 				        <p:column headerText="Date" sortBy="#{cout.date}" filterBy="#{cout.date}">
@@ -842,7 +873,7 @@ h2 {
 							</div>
 						</p:column>
 				    </p:dataTable>
-				</h:form>
+				</h:form>	
 			</p:tab>
 		</p:tabView>
 	</p:card>

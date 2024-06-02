@@ -13,7 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import entities.Client;
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import entities.Transaction;
 import lombok.Data;
@@ -32,19 +32,21 @@ public class AllTransactionView {
 	@Inject
 	private PortefeuilleService ptfService;
 
-	private Court dernierCout;
+	private Cours dernierCout;
 	
 	private int nbrPart;
-	private int valeur;
 	private double montant;
-
+	private double vl;
+	private String devise;
+	private Date date;
+	
 	private List<Transaction> transactionList;
 	private List<Transaction> filteredTransactions;
 
 	/* Listes déroulantes */
 	private List<Portefeuille> portefeuilleList;
-	private List<Client> clientList;
 	private List<String> deviseList;
+	private List<Client> clientList;
 
 	/* Valeurs séléctionnés */
 	private Portefeuille selectedPortefeuille;
@@ -59,19 +61,7 @@ public class AllTransactionView {
 
 		clientList = new ArrayList<>();
 		clientList = trService.getAllClients();
-
-		deviseList = new ArrayList<>();
-		deviseList.add("MAD");
-		deviseList.add("EUR");
-		deviseList.add("USD");
-		deviseList.add("CAD");
-		deviseList.add("CHF");
-		deviseList.add("GPB");
-		deviseList.add("JPY");
-		deviseList.add("AUD");
-		deviseList.add("CNY");
-		deviseList.add("INR");
-
+		
 		transactionList = new ArrayList<>();
 		transactionList = trService.getAllTransactions();
 	}
@@ -89,9 +79,7 @@ public class AllTransactionView {
 				|| String.valueOf(tr.getSens()).toLowerCase().contains(filterText)
 				|| tr.getClient().getNom().toLowerCase().contains(filterText)
 				|| String.valueOf(tr.getDate_transaction()).contains(filterText)
-				|| tr.getDevise().toLowerCase().contains(filterText)
 				|| String.valueOf(tr.getMontant()).contains(filterText)
-				|| String.valueOf(tr.getValeur()).contains(filterText)
 				|| String.valueOf(tr.getNbrPart()).toLowerCase().contains(filterText);
 	}
 
@@ -101,11 +89,9 @@ public class AllTransactionView {
 		tr.setPortefeuille(selectedPortefeuille);
 		Date date_transaction = new Date();
 		tr.setDate_transaction(date_transaction);
-		tr.setDevise(selectedDevise);
 		tr.setMontant(montant);
 		tr.setNbrPart(nbrPart);
 		tr.setSens(selectedSens);
-		tr.setValeur(valeur);
 
 		trService.addTransaction(tr);
 
@@ -125,5 +111,15 @@ public class AllTransactionView {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Transaction supprimée avec succès!"));
         transactionList = trService.getAllTransactions();
 	}
+	
+    public void updateDeviseAndCout() {
+        if (selectedPortefeuille != null) {
+            devise = selectedPortefeuille.getDevise();
+            vl = ptfService.getLatestCoutForPortefeuille(selectedPortefeuille.getId());
+        } else {
+            devise = "NULL";
+            vl = 0;
+        }
+    }
 
 }

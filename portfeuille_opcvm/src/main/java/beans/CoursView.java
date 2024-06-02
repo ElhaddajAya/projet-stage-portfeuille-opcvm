@@ -12,13 +12,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import entities.Client;
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import lombok.Data;
 import services.CoursService;
 import services.PortefeuilleService;
-import utils.PortefeuilleConverter;
 
 @Data
 
@@ -38,9 +36,11 @@ public class CoursView {
 	/* Valeurs séléctionnés */
 	private Portefeuille selectedPortefeuille;
 	
-	private List<Court> courtList;
+	private List<Cours> courtList;
 	List<Portefeuille> filteredCourts;
 	private Double cout;
+	private String devise;
+	private Date date;
 	
 	@PostConstruct
 	public void init() {
@@ -56,9 +56,9 @@ public class CoursView {
 	public void save() {	
 	    System.err.println("Méthode save() appelée!");
 
-		Court c = new Court();
+		Cours c = new Cours();
 		c.setCout(cout);
-		c.setDate(new Date());
+		c.setDate(date);
 		c.setPortefeuille(selectedPortefeuille);
 		
 		ptfService.addCourt(c);
@@ -75,12 +75,13 @@ public class CoursView {
 	        return true; // Aucun filtre, afficher toutes les lignes
 	    }
 
-	    Court court = (Court) value;
+	    Cours court = (Cours) value;
 	    String filterText = (filter.toString()).toLowerCase(locale);
 
 	    return court.getPortefeuille().getId().toString().toLowerCase(locale).contains(filterText)
 	            || court.getPortefeuille().getLibelle().toLowerCase(locale).contains(filterText)
 	            || String.valueOf(court.getCout()).equals(filterText)
+	            || court.getPortefeuille().getTypeOpcvm().toLowerCase().contains(filterText)
 	            || court.getDate().toString().toLowerCase(locale).contains(filterText);
 	}
 
@@ -92,5 +93,13 @@ public class CoursView {
 
 		courtList = ptfService.getAllCourts();
 	}
+	
+    public void updateDevise() {
+        if (selectedPortefeuille != null) {
+            devise = selectedPortefeuille.getDevise();
+        } else {
+            devise = "NULL";
+        }
+    }
 
 }

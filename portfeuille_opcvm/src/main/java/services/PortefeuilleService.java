@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 
@@ -11,7 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import entities.Client;
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import entities.SocieteGestion;
 import entities.Transaction;
@@ -57,17 +58,17 @@ public class PortefeuilleService {
 		}
 	}
 
-    public List<Court> getCourtsByPortefeuille(Portefeuille portefeuille) {
+    public List<Cours> getCourtsByPortefeuille(Portefeuille portefeuille) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Court> query = session.createQuery("from Court where portefeuille.id = :portefeuilleId", Court.class);
+            Query<Cours> query = session.createQuery("from Cours where portefeuille.id = :portefeuilleId", Cours.class);
             query.setParameter("portefeuilleId", portefeuille.getId());
             return query.list();
         }
     }
 
-    public List<Court> getAllCourts() {
+    public List<Cours> getAllCourts() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Court> query = session.createQuery("from Court", Court.class);
+            Query<Cours> query = session.createQuery("from Cours", Cours.class);
             return query.list();
         }
     }
@@ -167,11 +168,11 @@ public class PortefeuilleService {
 	    }
 	}
 	
-    public Court getLatestCourtForPortefeuille(Long portefeuilleId) {
+    public Cours getLatestCourtForPortefeuille(Long portefeuilleId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Court> query = session.createQuery(
-                "FROM Court WHERE portefeuille.id = :portefeuilleId ORDER BY date DESC", 
-                Court.class
+            Query<Cours> query = session.createQuery(
+                "FROM Cours WHERE portefeuille.id = :portefeuilleId ORDER BY date DESC", 
+                Cours.class
             );
             query.setParameter("portefeuilleId", portefeuilleId);
             query.setMaxResults(1);
@@ -179,7 +180,7 @@ public class PortefeuilleService {
         }
     }
     
-    public void addCourt(Court court) {
+    public void addCourt(Cours court) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(court);
@@ -187,4 +188,14 @@ public class PortefeuilleService {
         }
     }
 	
+    public Double getLatestCoutForPortefeuille(Long portefeuilleId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Double> query = session.createQuery(
+                "select c.cout from Cours c where c.portefeuille.id = :portefeuilleId order by c.date desc", Double.class);
+            query.setParameter("portefeuilleId", portefeuilleId);
+            query.setMaxResults(1);
+            return query.uniqueResult();
+        }
+    }
+    
 }

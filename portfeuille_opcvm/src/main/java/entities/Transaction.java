@@ -36,14 +36,8 @@ public class Transaction {
 	@Column(nullable = false)
 	private double montant;
 
-	@Column(name = "valeur_liquidative", nullable = false)
-	private int valeur;
-
 	@Column(name = "nbr_part", nullable = false)
 	private int nbrPart;
-
-	@Column(nullable = false)
-	private String Devise;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -51,33 +45,30 @@ public class Transaction {
 
 	@ManyToOne
 	@JoinColumn(name = "portefeuille_id")
-
 	private Portefeuille portefeuille;
 
 	public Transaction() {
 		super();
 	}
 
-	public Transaction(Long id, Date date_transaction, String sens, double montant, int valeur, Client client,
+	public Transaction(Long id, Date date_transaction, String sens, double montant, Client client,
 			Portefeuille portefeuille, int nbrPart) {
 		super();
 		this.id = id;
 		this.date_transaction = date_transaction;
 		this.sens = sens;
 		this.montant = montant;
-		this.valeur = valeur;
 		this.client = client;
 		this.portefeuille = portefeuille;
 		this.nbrPart = nbrPart;
 	}
 
-	public Transaction(Date date_transaction, String sens, double montant, int valeur, Client client,
+	public Transaction(Date date_transaction, String sens, double montant, Client client,
 			Portefeuille portefeuille, int nbrPart) {
 		super();
 		this.date_transaction = date_transaction;
 		this.sens = sens;
 		this.montant = montant;
-		this.valeur = valeur;
 		this.client = client;
 		this.portefeuille = portefeuille;
 		this.nbrPart = nbrPart;
@@ -87,7 +78,7 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "Transaction{" + "id=" + id + ", date_transaction=" + date_transaction + ", sens='" + sens + '\''
-				+ ", montant=" + montant + ", valeur=" + valeur + ", nbrPart=" + nbrPart + ", Devise='" + Devise + '\''
+				+ ", montant=" + montant + ", nbrPart=" + nbrPart + '\''
 				+ '}';
 	}
 	

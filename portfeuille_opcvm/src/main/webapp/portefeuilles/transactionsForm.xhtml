@@ -75,7 +75,7 @@ h2 {
 				<div class="field col-12 md:col-6">
 					<p:outputLabel for="@next" value="Libellé" />
 					<p:inputText id="libelle" value="#{transactionView.libelle}"
-						required="true" readonly="true" disabled="true" />
+						required="true" readonly="true" />
 				</div>
 				<div class="field col-12 md:col-6">
 					<p:outputLabel for="client" value="Client" />
@@ -115,36 +115,21 @@ h2 {
 						minValue="1" decimalPlaces="0" />
 				</div>
 				<div class="field col-12 md:col-4">
-					<p:outputLabel for="valeur" value="Valeur Liquidative" />
-					<p:inputNumber id="valeur" value="#{transactionView.valeur}"
-						required="true" minValue="1" decimalPlaces="0" />
-				</div>
+			        <p:outputLabel for="cout" value="Valeur Liquidative" />
+			        <p:inputNumber id="cout" value="#{transactionView.vl}"
+			            required="true" readonly="true" />
+			    </div>
 			</div>
 			<div class="ui-fluid formgrid grid">
-				<div class="field col-12 md:col-4">
-			        <p:outputLabel for="cout" value="Coût" />
-			        <p:inputNumber id="cout" value="#{transactionView.cout}"
-			            symbol=" MAD" disabled="true" readonly="true"
-			            symbolPosition="s" decimalSeparator="," thousandSeparator="." />
-			    </div>
-				<div class="field col-12 md:col-4">
+				<div class="field col-12 md:col-6">
 					<p:outputLabel for="montant" value="Montant" />
 					<p:inputNumber id="montant" value="#{transactionView.montant}"
-						required="true" modifyValueOnWheel="false" />
+						required="true" modifyValueOnWheel="false" decimalPlaces="0" />
 				</div>
-				<div class="field col-12 md:col-4">
-					<p:outputLabel for="devise" value="Devise" />
-					<p:selectOneMenu id="devise" required="true"
-						value="#{transactionView.selectedDevise}">
-						<f:selectItem itemLabel="" itemValue="" disabled="true" />
-						<f:selectItems value="#{transactionView.deviseList}" />
-						<f:facet name="footer">
-							<p:divider styleClass="mt-0" />
-							<h:outputText
-								value="#{transactionView.deviseList.size()} options"
-								style="font-weight:bold;" />
-						</f:facet>
-					</p:selectOneMenu>
+				<div class="field col-12 md:col-6">
+					<p:outputLabel for="@next" value="Devise" />
+					<p:inputText id="devise" value="#{transactionView.devise}"
+						required="true" readonly="true" />
 				</div>
 			</div>
 
@@ -222,26 +207,21 @@ h2 {
 					<h:outputText value="#{transaction.montant}" />
 				</p:column>
 				<p:column field="devise" headerText="Devise" filterMatchMode="exact"
-					sortBy="#{transaction.devise}">
-					<f:facet name="filter">
-						<p:selectOneMenu onchange="PF('transactionTable').filter()"
-							styleClass="ui-custom-filter" style="width: 100%">
-							<f:selectItem itemLabel="Tous" itemValue="#{null}"
-								noSelectionOption="true" />
-							<f:selectItems value="#{transactionView.deviseList}" />
-						</p:selectOneMenu>
-					</f:facet>
-					<h:outputText value="#{transaction.devise}" />
-				</p:column>
+			        sortBy="#{transaction.portefeuille.devise}">
+			        <f:facet name="filter">
+			            <p:selectOneMenu onchange="PF('transactionTable').filter()"
+			                styleClass="ui-custom-filter" style="width: 100%">
+			                <f:selectItem itemLabel="Tous" itemValue="#{null}"
+			                    noSelectionOption="true" />
+			                <f:selectItems value="#{transactionView.deviseList}" />
+			            </p:selectOneMenu>
+			        </f:facet>
+			        <h:outputText value="#{transaction.portefeuille.devise}" />
+			    </p:column>
 				<p:column headerText="Nbr Parts" sortBy="#{transaction.nbrPart}"
 					filterBy="#{transaction.nbrPart}" filterMatchMode="contains"
 					filterPlaceholder="" style="width: fit-content">
 					<h:outputText value="#{transaction.nbrPart}" />
-				</p:column>
-				<p:column headerText="VL" sortBy="#{transaction.valeur}"
-					filterBy="#{transaction.valeur}" filterMatchMode="contains"
-					filterPlaceholder="" style="width: fit-content">
-					<h:outputText value="#{transaction.valeur}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

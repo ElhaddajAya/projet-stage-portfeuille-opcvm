@@ -46,6 +46,9 @@ public class Portefeuille {
 	@Column(nullable = false)
 	private String horizon;
 
+	@Column(nullable = false)
+	private String devise;
+	
 	@Column(name = "profile_risque", nullable = false)
 	private String profileRisque;
 
@@ -56,7 +59,7 @@ public class Portefeuille {
 	public List<Transaction> transactions;
 	
     @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Court> cours;
+	private List<Cours> cours;
 	
 	public Portefeuille() {
 		super();
@@ -65,7 +68,7 @@ public class Portefeuille {
 	}
 
 	public Portefeuille(Long id, String libelle, int nbrPart, SocieteGestion societeGestion, String typeOpcvm,
-			String objectif, String horizon, String profileRisque, String typeInvest) {
+			String objectif, String horizon, String profileRisque, String typeInvest, String devise) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
@@ -76,10 +79,11 @@ public class Portefeuille {
 		this.horizon = horizon;
 		this.profileRisque = profileRisque;
 		this.typeInvest = typeInvest;
+		this.devise = devise;
 	}
 
 	public Portefeuille(String libelle, int nbrPart, SocieteGestion societeGestion, String typeOpcvm, String objectif,
-			String horizon, String profileRisque, String typeInvest) {
+			String horizon, String profileRisque, String typeInvest, String devise) {
 		super();
 		this.libelle = libelle;
 		this.nbrPart = nbrPart;
@@ -89,6 +93,7 @@ public class Portefeuille {
 		this.horizon = horizon;
 		this.profileRisque = profileRisque;
 		this.typeInvest = typeInvest;
+		this.devise = devise;
 	}
 
     @Override

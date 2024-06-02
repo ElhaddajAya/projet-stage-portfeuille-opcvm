@@ -193,21 +193,16 @@ h2 {
 					filterBy="#{transaction.montant}">
 					<h:outputText value="#{transaction.montant}" />
 				</p:column>
-		        <p:column headerText="Devise" sortBy="#{transaction.devise}" filterBy="#{transaction.devise}">
+		        <p:column headerText="Devise" sortBy="#{transaction.portefeuille.devise}" filterBy="#{transaction.portefeuille.devise}">
 		            <f:facet name="filter">
 		                <p:selectOneMenu onchange="PF('transactionTable').filter()"
 		                    styleClass="ui-custom-filter" style="width: 100%">
 		                    <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true" />
-		                    <f:selectItems value="#{clientView.deviseList}" var="devise" itemLabel="#{devise}" itemValue="#{devise}" />
+		                    <f:selectItems value="#{clientView.deviseList}" var="devise" itemLabel="#{transaction.portefeuille.devise}" itemValue="#{transaction.portefeuille.devise}" />
 		                </p:selectOneMenu>
 		            </f:facet>
-		            <h:outputText value="#{transaction.devise}" />
+		            <h:outputText value="#{transaction.portefeuille.devise}" />
 		        </p:column>
-				<p:column headerText="VL" style="width: fit-content"
-					sortBy="#{transaction.valeur}"
-					filterBy="#{transaction.valeur}">
-					<h:outputText value="#{transaction.valeur}" />
-				</p:column>
 				<p:column headerText="Date" sortBy="#{transaction.date_transaction}"
 					filterBy="#{transaction.date_transaction}">
 					<h:outputText value="#{transaction.date_transaction}" />

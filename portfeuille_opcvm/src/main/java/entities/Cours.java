@@ -19,8 +19,8 @@ import lombok.Data;
 @Data
 
 @Entity
-@Table(name = "courts")
-public class Court {
+@Table(name = "cours")
+public class Cours {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Court {
     @JoinColumn(name = "portefeuille_id")
     private Portefeuille portefeuille;
 
-	public Court(Long id, Date date, double cout, Portefeuille portefeuille) {
+	public Cours(Long id, Date date, double cout, Portefeuille portefeuille) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -44,11 +44,11 @@ public class Court {
 		this.portefeuille = portefeuille;
 	}
 
-	public Court() {
+	public Cours() {
 		super();
 	}
 
-	public Court(Date date, double cout, Portefeuille portefeuille) {
+	public Cours(Date date, double cout, Portefeuille portefeuille) {
 		super();
 		this.date = date;
 		this.cout = cout;

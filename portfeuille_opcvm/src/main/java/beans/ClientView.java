@@ -123,7 +123,6 @@ public class ClientView {
             return transaction.getPortefeuille().getLibelle().toLowerCase().contains(filterText)
                     || transaction.getPortefeuille().getTypeOpcvm().toLowerCase().contains(filterText)
                     || transaction.getSens().toLowerCase().contains(filterText)
-                    || transaction.getDevise().toLowerCase().contains(filterText)
                     || transaction.getDate_transaction().equals(filterText)
                     || transaction.getPortefeuille().getSocieteGestion().getNom().toLowerCase().contains(filterText)
                     || String.valueOf(transaction.getMontant()).contains(filterText);

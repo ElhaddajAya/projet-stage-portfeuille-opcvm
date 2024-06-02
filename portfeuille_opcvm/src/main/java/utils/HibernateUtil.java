@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import entities.Client;
-import entities.Court;
+import entities.Cours;
 import entities.Portefeuille;
 import entities.SocieteGestion;
 import entities.Transaction;
@@ -19,7 +19,7 @@ public class HibernateUtil {
             		.addAnnotatedClass(SocieteGestion.class)
             		.addAnnotatedClass(Portefeuille.class)
             		.addAnnotatedClass(Transaction.class)
-            		.addAnnotatedClass(Court.class)
+            		.addAnnotatedClass(Cours.class)
             		.buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
