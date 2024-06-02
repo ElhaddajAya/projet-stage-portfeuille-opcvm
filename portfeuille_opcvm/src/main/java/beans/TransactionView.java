@@ -72,11 +72,11 @@ public class TransactionView {
 		deviseList.add("INR");
 		
 		// Récupérer l'ID du portefeuille depuis le paramètre de la requête
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        if (params.containsKey("portefeuilleId")) {
-            portefeuilleId = Long.valueOf(params.get("portefeuilleId"));
-            portefeuille = ptfService.getPortefeuilleById(portefeuilleId);
-        }
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		if (params.containsKey("portefeuilleId")) {
+		    portefeuilleId = Long.valueOf(params.get("portefeuilleId"));
+		    portefeuille = ptfService.getPortefeuilleById(portefeuilleId);
+		}
         
         libelle = trService.getPortefeuilleLibelleById(portefeuilleId);
         

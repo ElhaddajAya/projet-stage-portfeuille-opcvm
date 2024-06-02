@@ -3,6 +3,7 @@ package beans;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -38,12 +39,13 @@ public class CoursView {
 	private Portefeuille selectedPortefeuille;
 	
 	private List<Court> courtList;
-	List<Portefeuille> filteredPortefeuilles;
+	List<Portefeuille> filteredCourts;
 	private Double cout;
 	
 	@PostConstruct
 	public void init() {
 		portefeuilleList = ptfService.getAllPortefeuilles();
+		courtList = crService.getAllCours();
 		
 		typeOPCVMList = new ArrayList<>();
 		typeOPCVMList.add("Actions");
@@ -66,5 +68,21 @@ public class CoursView {
 
 		courtList = ptfService.getAllCourts();
 	}
+	
+	/* Methode de filtrage globale */
+	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
+	    if (filter == null || filter.equals("")) {
+	        return true; // Aucun filtre, afficher toutes les lignes
+	    }
+
+	    Court court = (Court) value;
+	    String filterText = (filter.toString()).toLowerCase(locale);
+
+	    return court.getPortefeuille().getId().toString().toLowerCase(locale).contains(filterText)
+	            || court.getPortefeuille().getLibelle().toLowerCase(locale).contains(filterText)
+	            || String.valueOf(court.getCout()).equals(filterText)
+	            || court.getDate().toString().toLowerCase(locale).contains(filterText);
+	}
+
 
 }

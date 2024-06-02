@@ -768,6 +768,57 @@ h2 {
 						</div>
 					</div>
 				</h:form>
+				
+				<p:divider/>
+				<br/>
+							
+				<h:form>
+				    <p:dataTable var="cout" value="#{coursView.courtList}"
+						widgetVar="coursTable"
+						emptyMessage="Aucun cours trouvé."
+						filteredValue="#{coursView.filteredCourts}"
+						globalFilterFunction="#{coursView.globalFilterFunction}"
+						paginator="true" rows="10" paginatorPosition="bottom">
+
+						<!-- Entête de la table -->
+						<f:facet name="header">
+							<div class="header">
+								<span>Liste des Derniers Coûts</span>
+								<div class="flex justify-content-end">
+									<!-- Barre de recherche -->
+									<p:inputText id="globalFilter"
+										onkeyup="PF('coursTable').filter()" style="width:300px"
+										placeholder="Recherche globale" />
+								</div>
+							</div>
+						</f:facet>
+				
+				        <p:column headerText="ID Ptf" sortBy="#{cout.portefeuille.id}" filterBy="#{cout.portefeuille.id}">
+				            <h:outputText value="#{cout.portefeuille.id}" />
+				        </p:column>
+				        <p:column headerText="Libellé" sortBy="#{cout.portefeuille.libelle}" filterBy="#{cout.portefeuille.libelle}">
+				            <h:outputText value="#{cout.portefeuille.libelle}" />
+				        </p:column>
+				        <p:column headerText="Type d'OPCVM" filterBy="#{cout.portefeuille.typeOpcvm}"
+							filterMatchMode="exact" sortBy="#{cout.portefeuille.typeOpcvm}">
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('coursTable').filter()"
+									styleClass="ui-custom-filter" style="width: 100%">
+									<f:selectItem itemLabel="Tous" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{coursView.typeOPCVMList}" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{cout.portefeuille.typeOpcvm}" />
+				        </p:column>
+				        <p:column headerText="Coût" sortBy="#{cout.cout}" filterBy="#{cout.cout}">
+				            <h:outputText value="#{cout.cout} MAD" />
+				        </p:column>
+				        <p:column headerText="Date" sortBy="#{cout.date}" filterBy="#{cout.date}">
+				            <h:outputText value="#{cout.date}" />
+				        </p:column>
+				    </p:dataTable>
+				</h:form>
 			</p:tab>
 		</p:tabView>
 	</p:card>
