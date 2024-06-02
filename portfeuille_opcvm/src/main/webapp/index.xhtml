@@ -773,8 +773,16 @@ h2 {
 				<br/>
 							
 				<h:form>
+					<p:toolbar>
+			            <p:toolbarGroup align="right">
+				            <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-primary" ajax="false">
+			                    <p:dataExporter type="xlsx" target="coursTable" fileName="coursTable" />
+			                </p:commandButton>
+				        </p:toolbarGroup>
+			        </p:toolbar>
+			        
 				    <p:dataTable var="cout" value="#{coursView.courtList}"
-						widgetVar="coursTable"
+						widgetVar="coursTable" id="coursTable"
 						emptyMessage="Aucun cours trouvé."
 						filteredValue="#{coursView.filteredCourts}"
 						globalFilterFunction="#{coursView.globalFilterFunction}"
