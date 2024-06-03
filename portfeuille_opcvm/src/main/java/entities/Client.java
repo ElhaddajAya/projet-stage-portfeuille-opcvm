@@ -42,7 +42,7 @@ public class Client extends Societe {
     @Transient
     private double totalAmount;  // total montant -- -- -- -- -- 
 	
-    // "Personne" ou "Entreprise" => estPhysique?
+    // une entreprise physique ou moral ?
     public String getNature() {
         return estPhysique ? "Entreprise" : "Personne";
     }

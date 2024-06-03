@@ -688,7 +688,7 @@ h2 {
 						<!-- Entête de la table -->
 						<f:facet name="header">
 							<div class="header">
-								<span>Liste de toutes Transactions</span>
+								<span>Liste des Dernières Transactions</span>
 								<div class="flex justify-content-end">
 									<!-- Barre de recherche -->
 									<p:inputText id="globalFilter"
@@ -871,7 +871,7 @@ h2 {
 							<h:outputText value="#{cout.portefeuille.typeOpcvm}" />
 				        </p:column>
 				        <p:column headerText="VL" sortBy="#{cout.cout}" filterBy="#{cout.cout}">
-				            <h:outputText value="#{cout.cout} MAD" />
+				            <h:outputText value="#{cout.cout} #{cout.portefeuille.devise}" />
 				        </p:column>
 				        <p:column headerText="Date" sortBy="#{cout.date}" filterBy="#{cout.date}">
 				            <h:outputText value="#{cout.date}" />

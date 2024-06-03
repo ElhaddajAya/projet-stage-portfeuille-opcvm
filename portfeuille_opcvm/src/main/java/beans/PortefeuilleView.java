@@ -134,6 +134,7 @@ public class PortefeuilleView implements Serializable {
 	        selectedObjectif = ptf.getObjectif();
 	        selectedHorizon = ptf.getHorizon();
 	        selectedProfileRisque = ptf.getProfileRisque();
+	        selectedDevise = ptf.getDevise();
 	        
 	        // Peupler la liste distinctClientsForPortefeuille avec les clients distincts pour ce portefeuille
 	        distinctClientsForPortefeuille = ptfService.getDistinctClientsForPortefeuille(ptfId);
@@ -224,4 +225,13 @@ public class PortefeuilleView implements Serializable {
 	    portefeuilleList = ptfService.getAllPortefeuilles();
 	}
 
+	public Double getTotalMontants() {
+	    Double coutPart = ptfService.getLatestCoutForPortefeuille(ptfId);
+	    if (coutPart != null) {
+	        return nbrPart * coutPart;
+	    } else {
+	        return 0.0; // Ou une valeur par défaut appropriée si le coût de la part est null
+	    }
+	}
+	
 }
