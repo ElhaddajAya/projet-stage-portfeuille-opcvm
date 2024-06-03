@@ -99,7 +99,8 @@ public class ClientView {
 		
 		typeOPCVMList = new ArrayList<>();
 		typeOPCVMList.add("Actions");
-		typeOPCVMList.add("Obligations");
+		typeOPCVMList.add("Monétaire");
+		typeOPCVMList.add("Obligataire");
 		typeOPCVMList.add("Diversifiés");
 	}
 

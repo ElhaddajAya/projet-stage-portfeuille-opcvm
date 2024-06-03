@@ -421,7 +421,18 @@ h2 {
 							filterPlaceholder="" style="width: fit-content">
 							<h:outputText value="#{client.telephone}" />
 						</p:column>
-
+						<p:column headerText="Nature" sortBy="#{client.nature}" filterBy="#{client.nature}">
+						    <f:facet name="filter">
+						        <p:selectOneMenu onchange="PF('clientTable').filter()"
+						                         styleClass="ui-custom-filter" style="width: 100%">
+						            <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true"  />
+						            <f:selectItem itemLabel="Entreprise" itemValue="Entreprise" />
+						            <f:selectItem itemLabel="Personne" itemValue="Personne" />
+						        </p:selectOneMenu>
+						    </f:facet>
+						    <h:outputText value="#{client.nature}" />
+						</p:column>
+						
 						<!-- Colonne d'actions -->
 						<p:column headerText="" style="width: 157.344px">
 							<div class="actions">

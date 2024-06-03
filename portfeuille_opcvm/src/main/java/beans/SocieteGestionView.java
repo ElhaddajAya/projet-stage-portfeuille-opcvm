@@ -53,7 +53,8 @@ public class SocieteGestionView {
 		
 		typeOPCVMList = new ArrayList<>();
 		typeOPCVMList.add("Actions");
-		typeOPCVMList.add("Obligations");
+		typeOPCVMList.add("Monétaire");
+		typeOPCVMList.add("Obligataire");
 		typeOPCVMList.add("Diversifiés");
 		
 		typeInvestList = new ArrayList<>();
