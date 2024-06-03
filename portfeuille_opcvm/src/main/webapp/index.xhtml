@@ -267,7 +267,7 @@ h2 {
 						<p:column headerText="Nbr de Part"
 							sortBy="#{portefeuille.nbrPart}"
 							filterBy="#{portefeuille.nbrPart}" filterMatchMode="contains"
-							filterPlaceholder="" style="width: fit-content">
+							filterPlaceholder="" style="width: 120px">
 							<h:outputText value="#{portefeuille.nbrPart}" />
 						</p:column>
 						<p:column headerText="Sté de Gest."
@@ -437,9 +437,11 @@ h2 {
 						<p:column headerText="" style="width: 157.344px">
 							<div class="actions">
 								<!-- Bouton pour afficher les détails -->
-								<p:button icon="pi pi-eye"
+								<p:button icon="pi pi-eye" id="view-client"
 									styleClass="rounded-button ui-button-success"
 									outcome="/clients/viewClient.xhtml?clientId=#{client.id}" />
+									<p:tooltip for="view-client"
+									value="Consulter" position="top" />
 								<!-- Bouton pour supprimer -->
 								<p:commandButton id="deleteButton#{client.id}"
 									icon="pi pi-trash" styleClass="rounded-button ui-button-danger"
@@ -554,9 +556,11 @@ h2 {
 						<p:column headerText="" style="width: 157.344px">
 							<div class="actions">
 								<!-- Bouton pour afficher les détails -->
-								<p:button icon="pi pi-eye"
+								<p:button icon="pi pi-eye" id="view-societe"
 									styleClass="rounded-button ui-button-success"
 					            outcome="/societeGestion/viewSocieteGestion.xhtml?sgId=#{societe.id}" />
+					            <p:tooltip for="view-societe"
+									value="Consulter" position="top" />
 								<!-- Bouton pour supprimer -->
 								<p:commandButton id="deleteButton#{client.id}"
 									icon="pi pi-trash" styleClass="rounded-button ui-button-danger"
@@ -627,6 +631,7 @@ h2 {
 							<p:outputLabel for="nbrPart" value="Nombre de Part " />
 							<p:inputNumber id="nbrPart" value="#{allTransactionView.nbrPart}"
 								minValue="1" decimalPlaces="0" required="true" />
+						        <p:ajax event="keyup" update="montant" listener="#{allTransactionView.calculateMontant}" />
 						</div>
 					</div>
 					<div class="ui-fluid formgrid grid">
@@ -646,7 +651,7 @@ h2 {
 						<div class="field col-12 md:col-6">
 							<p:outputLabel for="montant" value="Montant" />
 							<p:inputNumber id="montant" value="#{allTransactionView.montant}"
-								required="true" modifyValueOnWheel="false" />
+								required="true" modifyValueOnWheel="false" readonly="true" />
 						</div>
 					</div>
 

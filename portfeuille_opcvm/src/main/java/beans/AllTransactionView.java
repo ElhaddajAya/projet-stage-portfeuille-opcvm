@@ -143,5 +143,11 @@ public class AllTransactionView {
             System.err.println("Devise " + devise + " + Valeur liquidative " + vl);
         }
     }
+    
+    public void calculateMontant() {
+        if (selectedPortefeuille != null) {
+            montant = nbrPart * vl;
+        }
+    }
 
 }

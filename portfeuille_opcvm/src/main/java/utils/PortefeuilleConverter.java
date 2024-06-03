@@ -4,14 +4,26 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
 import beans.AllTransactionView;
 import beans.CoursView;
+import beans.PortefeuilleView;
+import beans.TransactionView;
 import entities.Portefeuille;
 
 @FacesConverter("portefeuilleConverter")
 public class PortefeuilleConverter implements Converter {
 
+	@Inject
+    private TransactionView transactionView;
+
+    @Inject
+    private AllTransactionView allTransactionView;
+
+    @Inject
+    private PortefeuilleView portefeuilleView;
+	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (value == null || value.isEmpty()) {
