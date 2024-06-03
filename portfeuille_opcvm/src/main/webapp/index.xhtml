@@ -225,7 +225,7 @@ h2 {
 						<!-- Colonnes de données -->
 						<p:column headerText="ID" sortBy="#{portefeuille.id}"
 							filterBy="#{portefeuille.id}" filterMatchMode="contains"
-							filterPlaceholder="" style="width: 80px">
+							filterPlaceholder="" style="width: 50px">
 							<h:outputText value="#{portefeuille.id}" />
 						</p:column>
 						<p:column headerText="Libellé" sortBy="#{portefeuille.libelle}"
@@ -568,31 +568,30 @@ h2 {
 
 					<div class="ui-fluid formgrid grid mt-4">
 						<div class="field col-12 md:col-6">
-							<p:outputLabel for="portefeuille" value="Portefeuille" />
-							<p:selectOneMenu id="portefeuille" required="true"
-								value="#{allTransactionView.selectedPortefeuille}"
-								converter="portefeuilleConverter">
-								<f:selectItem itemLabel="" itemValue="" disabled="true" />
-								<f:selectItems value="#{allTransactionView.portefeuilleList}"
-									var="portefeuille" itemLabel="#{portefeuille.libelle}"
-									itemValue="#{portefeuille}" />
-								<f:facet name="footer">
-									<p:divider styleClass="mt-0" />
-									<h:outputText
-										value="#{allTransactionView.portefeuilleList.size()} options"
-										style="font-weight:bold;" />
-								</f:facet>
-				                <p:ajax listener="#{allTransactionView.updateDeviseAndCout}" update="devise cout" />
-							</p:selectOneMenu>
-						</div>
+				            <p:outputLabel for="portefeuille" value="Portefeuille" />
+				            <p:selectOneMenu id="portefeuille" required="true"
+				                value="#{allTransactionView.selectedPortefeuille}"
+				                converter="portefeuilleConverter">
+				                <f:selectItem itemLabel="" itemValue="" disabled="true" />
+				                <f:selectItems value="#{allTransactionView.portefeuilleList}" var="portefeuille"
+				                    itemLabel="#{portefeuille.libelle}" itemValue="#{portefeuille}" />
+				                <f:facet name="footer">
+				                    <p:divider styleClass="mt-0" />
+				                    <h:outputText
+				                        value="#{allTransactionView.portefeuilleList.size()} options"
+				                        style="font-weight:bold;" />
+				                </f:facet>
+		                        <f:ajax listener="#{allTransactionView.updateDeviseAndCout}" render="devise cout" />
+				            </p:selectOneMenu>
+				        </div>
 						<div class="field col-12 md:col-6">
 							<p:outputLabel for="client" value="Client" />
 							<p:selectOneMenu id="client" required="true"
 								value="#{allTransactionView.selectedClient}"
 								converter="clientConverter">
 								<f:selectItem itemLabel="" itemValue="" disabled="true" />
-								<f:selectItems value="#{allTransactionView.clientList}"
-									var="client" itemLabel="#{client.nom}" itemValue="#{client}" />
+								<f:selectItems value="#{allTransactionView.clientList}" var="client"
+									itemLabel="#{client.nom}" itemValue="#{client}" />
 								<f:facet name="footer">
 									<p:divider styleClass="mt-0" />
 									<h:outputText
@@ -611,7 +610,7 @@ h2 {
 					    <div class="field col-12 md:col-4">
 							<p:outputLabel for="devise" value="Devise" />
 							<p:inputText id="devise" value="#{alltransactionView.devise}"
-								readonly="true" />
+								readonly="true"  />
 						</div>
 						<div class="field col-12 md:col-4">
 							<p:outputLabel for="nbrPart" value="Nombre de Part " />
@@ -668,7 +667,7 @@ h2 {
 						emptyMessage="Aucune transaction trouvé."
 						filteredValue="#{allTransactionView.filteredTransactions}"
 						globalFilterFunction="#{allTransactionView.globalFilterFunction}"
-						paginator="true" rows="10" paginatorPosition="bottom">
+						paginator="true" rows="8" paginatorPosition="bottom">
 
 						<!-- Entête de la table -->
 						<f:facet name="header">
@@ -827,7 +826,7 @@ h2 {
 						<!-- Entête de la table -->
 						<f:facet name="header">
 							<div class="header">
-								<span>Liste des Valeurs Liquidatives (Récentes)</span>
+								<span>Liste des Dernières Valorisations</span>
 								<div class="flex justify-content-end">
 									<!-- Barre de recherche -->
 									<p:inputText id="globalFilter"

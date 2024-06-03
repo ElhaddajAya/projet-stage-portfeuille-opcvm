@@ -84,25 +84,43 @@ public class AllTransactionView {
 	}
 
 	public List<Transaction> save() {
-		Transaction tr = new Transaction();
-		tr.setClient(selectedClient);
-		tr.setPortefeuille(selectedPortefeuille);
-		Date date_transaction = new Date();
-		tr.setDate_transaction(date_transaction);
-		tr.setMontant(montant);
-		tr.setNbrPart(nbrPart);
-		tr.setSens(selectedSens);
+	    // Vérifier si les clients et portefeuilles sélectionnés sont valides
+	    if (selectedClient == null || !clientList.contains(selectedClient)) {
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Client sélectionné invalide"));
+	        return null;
+	    }
+	    if (selectedPortefeuille == null || !portefeuilleList.contains(selectedPortefeuille)) {
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Portefeuille sélectionné invalide"));
+	        return null;
+	    }
 
-		trService.addTransaction(tr);
+	    Transaction tr = new Transaction();
+	    tr.setClient(selectedClient);
+	    tr.setPortefeuille(selectedPortefeuille);
+	    Date date_transaction = new Date();
+	    tr.setDate_transaction(date_transaction);
+	    tr.setMontant(montant);
+	    tr.setNbrPart(nbrPart);
+	    tr.setSens(selectedSens);
 
-		// mettre à jour le nombre total de parts du portefeuille séléctionnés
-		selectedPortefeuille.setNbrPart(selectedPortefeuille.getNbrPart() + nbrPart);
+	    trService.addTransaction(tr);
 
-		ptfService.updatePortefeuille(selectedPortefeuille);
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Transaction éffectuée avec succès!"));
+	    // mettre à jour le nombre total de parts du portefeuille séléctionnés
+	    selectedPortefeuille.setNbrPart(selectedPortefeuille.getNbrPart() + nbrPart);
 
-		return transactionList = trService.getAllTransactions();
+	    ptfService.updatePortefeuille(selectedPortefeuille);
+	    FacesContext.getCurrentInstance().addMessage(null,
+	        new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès", "Transaction éffectuée avec succès!"));
+
+	    // Réinitialiser les valeurs
+	    selectedClient = null;
+	    selectedPortefeuille = null;
+	    montant = 0;
+	    nbrPart = 0;
+
+	    return transactionList = trService.getAllTransactions();
 	}
 
 	public void deleteTransaction(Transaction tr) {
@@ -116,9 +134,13 @@ public class AllTransactionView {
         if (selectedPortefeuille != null) {
             devise = selectedPortefeuille.getDevise();
             vl = ptfService.getLatestCoutForPortefeuille(selectedPortefeuille.getId());
+            
+            System.err.println("Devise " + devise + " + Valeur liquidative " + vl);
         } else {
             devise = "NULL";
             vl = 0;
+            
+            System.err.println("Devise " + devise + " + Valeur liquidative " + vl);
         }
     }
 

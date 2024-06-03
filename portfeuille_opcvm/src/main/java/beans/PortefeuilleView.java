@@ -74,7 +74,8 @@ public class PortefeuilleView implements Serializable {
 
 		typeOPCVMList = new ArrayList<>();
 		typeOPCVMList.add("Actions");
-		typeOPCVMList.add("Obligations");
+		typeOPCVMList.add("Monétaire");
+		typeOPCVMList.add("Obligataires");
 		typeOPCVMList.add("Diversifiés");
 
 		objectifList = new ArrayList<>();

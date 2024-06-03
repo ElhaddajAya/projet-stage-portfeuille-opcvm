@@ -96,7 +96,7 @@ public class ChartView implements Serializable {
         lineModel.getAxes().put(AxisType.X, xAxis);
 
         Axis yAxis = lineModel.getAxis(AxisType.Y);
-        yAxis.setLabel("VL");
+        yAxis.setLabel("VL en " + portefeuille.getDevise());
         yAxis.setMin(minY);
         yAxis.setMax(maxY);
         yAxis.setTickFormat("%.0f"); // Afficher des nombres entiers sur l'axe Y avec une échelle logarithmique
