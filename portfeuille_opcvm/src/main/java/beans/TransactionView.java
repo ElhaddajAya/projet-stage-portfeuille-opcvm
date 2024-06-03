@@ -129,4 +129,8 @@ public class TransactionView {
 	    transactionList = trService.getAllTransactionsForPortefeuille(portefeuilleId);
 	}
 	
+	public void calculateMontant() {
+        montant = nbrPart * vl;
+    }
+	
 }

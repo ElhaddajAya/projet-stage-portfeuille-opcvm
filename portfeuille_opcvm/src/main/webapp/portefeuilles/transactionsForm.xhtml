@@ -113,6 +113,7 @@ h2 {
 					<p:outputLabel for="nbrPart" value="Nombre de Part " />
 					<p:inputNumber id="nbrPart" value="#{transactionView.nbrPart}"
 						minValue="1" decimalPlaces="0" />
+				    <p:ajax event="keyup" update="montant" listener="#{transactionView.calculateMontant}" />
 				</div>
 				<div class="field col-12 md:col-4">
 			        <p:outputLabel for="cout" value="Valeur Liquidative" />
@@ -124,7 +125,7 @@ h2 {
 				<div class="field col-12 md:col-6">
 					<p:outputLabel for="montant" value="Montant" />
 					<p:inputNumber id="montant" value="#{transactionView.montant}"
-						required="true" modifyValueOnWheel="false" decimalPlaces="0" />
+						required="true" modifyValueOnWheel="false" decimalPlaces="0" readonly="true" />
 				</div>
 				<div class="field col-12 md:col-6">
 					<p:outputLabel for="@next" value="Devise" />
