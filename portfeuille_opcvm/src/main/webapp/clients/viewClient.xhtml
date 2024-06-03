@@ -103,25 +103,20 @@ h2 {
 					</strong>
 				</div>
 			</div>
-			<div class="field grid">
-				<p:outputLabel styleClass="col-fixed"
-					style="width: 40%; margin-left: 200px" value="Forme Juridique :" />
-				<div class="col">
-					<strong> <p:outputLabel
-							value="#{clientView.formeJuridique}" />
-					</strong>
-				</div>
-			</div>
-			<div class="field grid">
-				<p:outputLabel styleClass="col-fixed"
-					style="width: 40%; margin-left: 200px"
-					value="Activité Principale :" />
-				<div class="col">
-					<strong> <p:outputLabel
-							value="#{clientView.activitePrincipale}" />
-					</strong>
-				</div>
-			</div>
+			<h:panelGroup rendered="#{clientView.estPhysique}">
+		        <div class="field grid">
+		            <p:outputLabel styleClass="col-fixed" style="width: 40%; margin-left: 200px" value="Forme Juridique :" />
+		            <div class="col">
+		                <strong><p:outputLabel value="#{clientView.formeJuridique}" /></strong>
+		            </div>
+		        </div>
+		        <div class="field grid">
+		            <p:outputLabel styleClass="col-fixed" style="width: 40%; margin-left: 200px" value="Activité Principale :" />
+		            <div class="col">
+		                <strong><p:outputLabel value="#{clientView.activitePrincipale}" /></strong>
+		            </div>
+		        </div>
+		    </h:panelGroup>
 		</h:form>
 		<br />
 
