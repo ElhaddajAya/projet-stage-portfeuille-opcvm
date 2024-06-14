@@ -230,7 +230,7 @@ public class PortefeuilleView implements Serializable {
 	    if (coutPart != null) {
 	        return nbrPart * coutPart;
 	    } else {
-	        return 0.0; // Ou une valeur par défaut appropriée si le coût de la part est null
+	        return 0.0; 
 	    }
 	}
 	

@@ -56,6 +56,8 @@ public class TransactionView {
 	@PostConstruct
     public void init() {
         clientList = trService.getAllClients();
+        
+        deviseList = new ArrayList<>();
         deviseList = List.of("MAD", "EUR", "USD", "CAD", "CHF", "GPB", "JPY", "AUD", "CNY", "INR");
 
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();

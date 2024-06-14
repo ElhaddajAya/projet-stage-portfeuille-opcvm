@@ -264,7 +264,7 @@ h2 {
 							</f:facet>
 							<h:outputText value="#{portefeuille.devise}" />
 						</p:column>
-						<p:column headerText="Nbr de Part"
+						<p:column headerText="Nbr de Parts"
 							sortBy="#{portefeuille.nbrPart}"
 							filterBy="#{portefeuille.nbrPart}" filterMatchMode="contains"
 							filterPlaceholder="" style="width: 120px">
@@ -422,7 +422,7 @@ h2 {
 							<h:outputText value="#{client.telephone}" />
 						</p:column>
 						<p:column headerText="Nature" sortBy="#{client.nature}" filterBy="#{client.nature}">
-						    <f:facet name="filter">
+						    <f:facet name="filter" style="width: 90px">
 						        <p:selectOneMenu onchange="PF('clientTable').filter()"
 						                         styleClass="ui-custom-filter" style="width: 100%">
 						            <f:selectItem itemLabel="Tous" itemValue="#{null}" noSelectionOption="true"  />
