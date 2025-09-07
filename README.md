@@ -151,56 +151,84 @@ Ce projet a été développé dans le cadre d'un **stage de 2ème année de DUT 
 
 <div align="center">
 
-### 👤 Détails Client
-![Détail Client](screenshots/client-detail-view.png)
-*Page de détail d'un client avec ses informations personnelles et transactions*
-
-### 👥 Gestion des Clients
-![Gestion Clients](screenshots/clients-management-form.png)
-*Formulaire de gestion des clients avec création et liste*
-
-### 📈 Gestion des Cours
-![Gestion Cours](screenshots/cours-management.png)
-*Interface de gestion des cours (valeurs liquidatives)*
-
-### 📋 Liste des Clients
-![Liste Clients](screenshots/clients-list-table.png)
-*Tableau de liste des clients avec actions (voir, modifier, supprimer)*
+### ➕ Création de Portefeuille
+![Création Portefeuille](screenshots/Portefeuilles.jpg)
+*Formulaire de création de nouveau portefeuille*
 
 ### 📊 Liste des Portefeuilles
-![Liste Portefeuilles](screenshots/portfolios-main-list.png)
+![Liste Portefeuilles](screenshots/Liste_portefeuille_2.jpg)
 *Liste principale des portefeuilles avec informations détaillées*
 
-### 🏢 Sociétés de Gestion
-![Sociétés Gestion](screenshots/management-companies-list.png)
-*Liste des sociétés de gestion*
-
-### 💰 Transactions par Portefeuille
-![Transactions Portefeuille](screenshots/portfolio-transactions-list.png)
-*Transactions d'un portefeuille spécifique (OPCVM Cash)*
+### 💰 Portefeuilles avec Transactions
+![Portefeuilles Transactions](screenshots/Liste_portfeuilles.jpg)
+*Liste des portefeuilles avec bouton "Effectuer Transactions"*
 
 ### 📈 Graphique de Performance
-![Performance Chart](screenshots/performance-chart.png)
+![Performance Chart](screenshots/Performance_chart.jpg)
 *Graphiques de performance des valeurs liquidatives*
 
-### ✏️ Formulaire de Transaction
-![Formulaire Transaction](screenshots/transaction-form-filled.png)
-*Formulaire de transaction avec données sélectionnées*
+### 🏢 Portefeuilles par Société
+![Portefeuilles Société](screenshots/Liste_portefeuilles_geres.jpg)
+*Portefeuilles gérés par une société de gestion spécifique*
+
+### 📋 Liste des Clients
+![Liste Clients](screenshots/Liste_clients.jpg)
+*Tableau de liste des clients avec actions (voir, modifier, supprimer)*
+
+### 👤 Détails Client
+![Détail Client](screenshots/Client_details.jpg)
+*Page de détail d'un client avec ses informations personnelles et transactions*
+
+### 📊 Historique Client
+![Historique Client](screenshots/Liste_transactions_client.jpg)
+*Historique des transactions d'un client*
+
+### 📈 Gestion des Cours
+![Gestion Cours](screenshots/Cours.png)
+*Interface de gestion des cours (valeurs liquidatives)*
+
+### 📊 Sélection de Portefeuille
+![Sélection Portefeuille](screenshots/Cours_ajout.jpg)
+*Sélection de portefeuille pour saisie des cours*
+
+### 💹 Valorisations
+![Valorisations](screenshots/Liste_dernieres_valorisations.jpg)
+*Tableau des dernières valorisations par portefeuille*
+
+### 🏢 Création Société de Gestion
+![Création Société](screenshots/Societe_gestion.png)
+*Formulaire de création de société de gestion*
+
+### 🏢 Détail Société de Gestion
+![Détail Société](screenshots/Societe_Gestion_details.jpg)
+*Page de détail d'une société de gestion*
+
+### 🏢 Sociétés de Gestion
+![Sociétés Gestion](screenshots/Liste_societe_gestion.jpg)
+*Liste des sociétés de gestion*
 
 ### 🔄 Vue Globale des Transactions
-![Toutes Transactions](screenshots/all-transactions-overview.png)
+![Toutes Transactions](screenshots/Liste_transactions.jpg)
 *Vue globale de toutes les transactions*
+
+### ✏️ Formulaire de Transaction
+![Formulaire Transaction](screenshots/Transaction.png)
+*Formulaire de transaction vierge*
+
+### ✏️ Transaction avec Sélections
+![Transaction Remplie](screenshots/Transaction_ajout.jpg)
+*Formulaire de transaction avec données sélectionnées*
+
+### 💰 Transactions par Portefeuille
+![Transactions Portefeuille](screenshots/Liste_transaction_dun_portefeuille.jpg)
+*Transactions d'un portefeuille spécifique (OPCVM Cash)*
 
 </div>
 
 ## 👨‍💻 Développement
 
-Projet réalisé par un étudiant en DUT Informatique dans le cadre de son stage de 2ème année, encadré par des professionnels du secteur financier.
+Projet réalisé par Aya EL HADDAJ, étudiante en Génie Informatique dans le cadre de son stage de 2ème année, encadré par des professionnels du secteur financier.
 
 ## 📄 Licence
 
 Ce projet est développé à des fins pédagogiques dans le cadre d'un stage universitaire.
-
----
-
-*Développé avec ❤️ pour l'apprentissage des technologies Java EE et la découverte du secteur financier*
