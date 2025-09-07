@@ -149,8 +149,58 @@ Ce projet a été développé dans le cadre d'un **stage de 2ème année de DUT 
 
 ## 📊 Captures d'écran
 
-*[Des captures d'écran de l'interface utilisateur]*
+<div align="center">
+
+### 👤 Détails Client
+![Détail Client](screenshots/client-detail-view.png)
+*Page de détail d'un client avec ses informations personnelles et transactions*
+
+### 👥 Gestion des Clients
+![Gestion Clients](screenshots/clients-management-form.png)
+*Formulaire de gestion des clients avec création et liste*
+
+### 📈 Gestion des Cours
+![Gestion Cours](screenshots/cours-management.png)
+*Interface de gestion des cours (valeurs liquidatives)*
+
+### 📋 Liste des Clients
+![Liste Clients](screenshots/clients-list-table.png)
+*Tableau de liste des clients avec actions (voir, modifier, supprimer)*
+
+### 📊 Liste des Portefeuilles
+![Liste Portefeuilles](screenshots/portfolios-main-list.png)
+*Liste principale des portefeuilles avec informations détaillées*
+
+### 🏢 Sociétés de Gestion
+![Sociétés Gestion](screenshots/management-companies-list.png)
+*Liste des sociétés de gestion*
+
+### 💰 Transactions par Portefeuille
+![Transactions Portefeuille](screenshots/portfolio-transactions-list.png)
+*Transactions d'un portefeuille spécifique (OPCVM Cash)*
+
+### 📈 Graphique de Performance
+![Performance Chart](screenshots/performance-chart.png)
+*Graphiques de performance des valeurs liquidatives*
+
+### ✏️ Formulaire de Transaction
+![Formulaire Transaction](screenshots/transaction-form-filled.png)
+*Formulaire de transaction avec données sélectionnées*
+
+### 🔄 Vue Globale des Transactions
+![Toutes Transactions](screenshots/all-transactions-overview.png)
+*Vue globale de toutes les transactions*
+
+</div>
 
 ## 👨‍💻 Développement
 
-Projet réalisé par Aya EL HADDAJ, étudiante en DUT Informatique dans le cadre de mon stage de 2ème année, encadré par des professionnels du secteur financier.
+Projet réalisé par un étudiant en DUT Informatique dans le cadre de son stage de 2ème année, encadré par des professionnels du secteur financier.
+
+## 📄 Licence
+
+Ce projet est développé à des fins pédagogiques dans le cadre d'un stage universitaire.
+
+---
+
+*Développé avec ❤️ pour l'apprentissage des technologies Java EE et la découverte du secteur financier*
