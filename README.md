@@ -159,13 +159,13 @@ Ce projet a été développé dans le cadre d'un **stage de 2ème année de DUT 
 ![Liste Portefeuilles](screenshots/Liste_portefeuille_2.jpg)
 *Liste principale des portefeuilles avec informations détaillées*
 
-### 💰 Portefeuilles avec Transactions
-![Portefeuilles Transactions](screenshots/Liste_portfeuilles.jpg)
-*Liste des portefeuilles avec bouton "Effectuer Transactions"*
-
 ### 📈 Graphique de Performance
 ![Performance Chart](screenshots/Performance_chart.jpg)
 *Graphiques de performance des valeurs liquidatives*
+
+### 💰 Portefeuilles avec Transactions
+![Portefeuilles Transactions](screenshots/Liste_portfeuilles.jpg)
+*Liste des portefeuilles avec bouton "Effectuer Transactions"*
 
 ### 🏢 Portefeuilles par Société
 ![Portefeuilles Société](screenshots/Liste_portefeuilles_geres.jpg)
